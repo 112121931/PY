@@ -73,6 +73,9 @@ def get_feedback(guess, secret_number):
   return a_count, b_count
 
 def check_guess(guess, guessed):
+  '''
+  將這次猜測的的數字, 與先前猜測的數字進行驗證, 去除不合理的猜測
+  '''    
   if guessed is None:
     return True
   
@@ -191,5 +194,9 @@ def play_game():
       if (a_count != item[1] or b_count != item[2]):
         print(f"你在 {item[0]} 時，回答的結果有誤喔!!我哪猜的出來啊!!")
 
-# 啟動遊戲
-play_game()
+def main():
+  # 啟動遊戲
+  play_game()
+
+if __name__ == "__main__":
+  main()
