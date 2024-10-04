@@ -138,9 +138,9 @@ def play_game():
     # 取得回饋
     a_count = 0
     b_count = 0
-    if secret_string != "":
+    if secret_string != "": #自動回饋
         a_count, b_count = get_feedback(guess, secret_number)
-    else:
+    else: #手動回饋
       a_count = int(input("請輸入A的數量："))
       b_count = int(input("請輸入B的數量："))
     print(f"結果: {a_count}A{b_count}B")
@@ -183,7 +183,7 @@ def play_game():
       print(f"我用{i+1}次猜對囉！")
       break
     else :      
-      guessed.append([guess, a_count, b_count])
+      guessed.append([guess, a_count, b_count]) #紀錄這次猜測的結果
 
   if a_count != 4:
     print(f"很抱歉，我猜不到答案。")
@@ -197,6 +197,7 @@ def play_game():
 def main():
   # 啟動遊戲
   play_game()
+  input("請按任一鍵結束程式")
 
 if __name__ == "__main__":
   main()
