@@ -3,6 +3,7 @@ import requests
 import folium
 from cities import get_cities  
 from weather import get_weather
+from realestate import query_real_estate, download_and_extract_data
 
 app = Flask(__name__)
     
@@ -37,4 +38,5 @@ def home():
     return render_template('index.html')
 
 if __name__ == '__main__':
+    download_and_extract_data()
     app.run(debug=True)

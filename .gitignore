@@ -161,3 +161,4 @@ cython_debug/
 #  option (not recommended) you can uncomment the following to ignore the entire idea folder.
 #.idea/
 Source/期末作業/templates/map.html
+/Source/期末作業/real_estate_data
