@@ -1,0 +1,754 @@
+<!DOCTYPE html>
+<html>
+<head>
+    
+    <meta http-equiv="content-type" content="text/html; charset=UTF-8" />
+    
+        <script>
+            L_NO_TOUCH = false;
+            L_DISABLE_3D = false;
+        </script>
+    
+    <style>html, body {width: 100%;height: 100%;margin: 0;padding: 0;}</style>
+    <style>#map {position:absolute;top:0;bottom:0;right:0;left:0;}</style>
+    <script src="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.js"></script>
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.js"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/leaflet@1.9.3/dist/leaflet.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css"/>
+    <link rel="stylesheet" href="https://netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap-glyphicons.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.2.0/css/all.min.css"/>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Leaflet.awesome-markers/2.0.2/leaflet.awesome-markers.css"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/python-visualization/folium/folium/templates/leaflet.awesome.rotate.min.css"/>
+    
+            <meta name="viewport" content="width=device-width,
+                initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+            <style>
+                #map_bffaed16a83993aa0d621efeac59a142 {
+                    position: relative;
+                    width: 100.0%;
+                    height: 100.0%;
+                    left: 0.0%;
+                    top: 0.0%;
+                }
+                .leaflet-container { font-size: 1rem; }
+            </style>
+        
+</head>
+<body>
+    
+    
+            <div class="folium-map" id="map_bffaed16a83993aa0d621efeac59a142" ></div>
+        
+</body>
+<script>
+    
+    
+            var map_bffaed16a83993aa0d621efeac59a142 = L.map(
+                "map_bffaed16a83993aa0d621efeac59a142",
+                {
+                    center: [23.6978, 120.9605],
+                    crs: L.CRS.EPSG3857,
+                    zoom: 8,
+                    zoomControl: true,
+                    preferCanvas: false,
+                }
+            );
+
+            
+
+        
+    
+            var tile_layer_25cb074ccf23672af0c59ed81c84d89d = L.tileLayer(
+                "https://tile.openstreetmap.org/{z}/{x}/{y}.png",
+                {"attribution": "\u0026copy; \u003ca href=\"https://www.openstreetmap.org/copyright\"\u003eOpenStreetMap\u003c/a\u003e contributors", "detectRetina": false, "maxNativeZoom": 19, "maxZoom": 19, "minZoom": 0, "noWrap": false, "opacity": 1, "subdomains": "abc", "tms": false}
+            );
+        
+    
+            tile_layer_25cb074ccf23672af0c59ed81c84d89d.addTo(map_bffaed16a83993aa0d621efeac59a142);
+        
+    
+            var marker_8fd4ca2bd76e4bd4115be6d6bc056e37 = L.marker(
+                [25.04776, 121.517],
+                {}
+            ).addTo(map_bffaed16a83993aa0d621efeac59a142);
+        
+    
+        var popup_e59cafa94a3e8be417a637db2e98995f = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_5db18ab4137ae4e6905522f5af8fa87e = $(`<div id="html_5db18ab4137ae4e6905522f5af8fa87e" style="width: 100.0%; height: 100.0%;">臺北市</div>`)[0];
+                popup_e59cafa94a3e8be417a637db2e98995f.setContent(html_5db18ab4137ae4e6905522f5af8fa87e);
+            
+        
+
+        marker_8fd4ca2bd76e4bd4115be6d6bc056e37.bindPopup(popup_e59cafa94a3e8be417a637db2e98995f)
+        ;
+
+        
+    
+    
+            marker_8fd4ca2bd76e4bd4115be6d6bc056e37.bindTooltip(
+                `<div>
+                     臺北市 的天氣狀況：多雲
+最高溫度：29°C
+最低溫度：27°C
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_7935cde717a0eefec62d743ed94f34fb = L.marker(
+                [25.012, 121.4624],
+                {}
+            ).addTo(map_bffaed16a83993aa0d621efeac59a142);
+        
+    
+        var popup_978ed5e2f320c7e5a54bcc18d93c5510 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_77ed536ee7c23e5dda5464b207dab6b0 = $(`<div id="html_77ed536ee7c23e5dda5464b207dab6b0" style="width: 100.0%; height: 100.0%;">新北市</div>`)[0];
+                popup_978ed5e2f320c7e5a54bcc18d93c5510.setContent(html_77ed536ee7c23e5dda5464b207dab6b0);
+            
+        
+
+        marker_7935cde717a0eefec62d743ed94f34fb.bindPopup(popup_978ed5e2f320c7e5a54bcc18d93c5510)
+        ;
+
+        
+    
+    
+            marker_7935cde717a0eefec62d743ed94f34fb.bindTooltip(
+                `<div>
+                     新北市 的天氣狀況：多雲短暫陣雨
+最高溫度：29°C
+最低溫度：27°C
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_907cf3b7294c1ca30348200e094066d0 = L.marker(
+                [24.9932, 121.3005],
+                {}
+            ).addTo(map_bffaed16a83993aa0d621efeac59a142);
+        
+    
+        var popup_7e63e50f80c15b467c65cec636d9cc7b = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_2f7f4ec6594cab950139c236b5d38022 = $(`<div id="html_2f7f4ec6594cab950139c236b5d38022" style="width: 100.0%; height: 100.0%;">桃園市</div>`)[0];
+                popup_7e63e50f80c15b467c65cec636d9cc7b.setContent(html_2f7f4ec6594cab950139c236b5d38022);
+            
+        
+
+        marker_907cf3b7294c1ca30348200e094066d0.bindPopup(popup_7e63e50f80c15b467c65cec636d9cc7b)
+        ;
+
+        
+    
+    
+            marker_907cf3b7294c1ca30348200e094066d0.bindTooltip(
+                `<div>
+                     桃園市 的天氣狀況：多雲
+最高溫度：28°C
+最低溫度：26°C
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_159d90609810d31ad023117a90f3f3e3 = L.marker(
+                [24.1465, 120.684],
+                {}
+            ).addTo(map_bffaed16a83993aa0d621efeac59a142);
+        
+    
+        var popup_2cb79ca70a7fb7c1c0a19d4bbb8054ab = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_a5686fd471622f7c4519cb4713d35b41 = $(`<div id="html_a5686fd471622f7c4519cb4713d35b41" style="width: 100.0%; height: 100.0%;">臺中市</div>`)[0];
+                popup_2cb79ca70a7fb7c1c0a19d4bbb8054ab.setContent(html_a5686fd471622f7c4519cb4713d35b41);
+            
+        
+
+        marker_159d90609810d31ad023117a90f3f3e3.bindPopup(popup_2cb79ca70a7fb7c1c0a19d4bbb8054ab)
+        ;
+
+        
+    
+    
+            marker_159d90609810d31ad023117a90f3f3e3.bindTooltip(
+                `<div>
+                     臺中市 的天氣狀況：多雲
+最高溫度：31°C
+最低溫度：28°C
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_e2d394cd1ec8d023806d31c63a642caa = L.marker(
+                [23.0011, 120.2037],
+                {}
+            ).addTo(map_bffaed16a83993aa0d621efeac59a142);
+        
+    
+        var popup_00229ebbfc9fe6c7e885a67a255b21de = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_0629faed3831f56d5081902d9cee44f9 = $(`<div id="html_0629faed3831f56d5081902d9cee44f9" style="width: 100.0%; height: 100.0%;">臺南市</div>`)[0];
+                popup_00229ebbfc9fe6c7e885a67a255b21de.setContent(html_0629faed3831f56d5081902d9cee44f9);
+            
+        
+
+        marker_e2d394cd1ec8d023806d31c63a642caa.bindPopup(popup_00229ebbfc9fe6c7e885a67a255b21de)
+        ;
+
+        
+    
+    
+            marker_e2d394cd1ec8d023806d31c63a642caa.bindTooltip(
+                `<div>
+                     臺南市 的天氣狀況：多雲時陰
+最高溫度：31°C
+最低溫度：28°C
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_4ec844b7ff6fab7b394a289ad64c41e6 = L.marker(
+                [22.6203, 120.31],
+                {}
+            ).addTo(map_bffaed16a83993aa0d621efeac59a142);
+        
+    
+        var popup_e7849b2611559e374cc6818bae0a92f5 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_93598fe8f38ce591329b2d65b63ea971 = $(`<div id="html_93598fe8f38ce591329b2d65b63ea971" style="width: 100.0%; height: 100.0%;">高雄市</div>`)[0];
+                popup_e7849b2611559e374cc6818bae0a92f5.setContent(html_93598fe8f38ce591329b2d65b63ea971);
+            
+        
+
+        marker_4ec844b7ff6fab7b394a289ad64c41e6.bindPopup(popup_e7849b2611559e374cc6818bae0a92f5)
+        ;
+
+        
+    
+    
+            marker_4ec844b7ff6fab7b394a289ad64c41e6.bindTooltip(
+                `<div>
+                     高雄市 的天氣狀況：多雲午後短暫雷陣雨
+最高溫度：31°C
+最低溫度：29°C
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_548cba7bb883349d34a356a1c004f9b5 = L.marker(
+                [25.133, 121.7418],
+                {}
+            ).addTo(map_bffaed16a83993aa0d621efeac59a142);
+        
+    
+        var popup_688e25de1a443b824afc9c754820613b = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_93069925aed6191c838065969d8f9773 = $(`<div id="html_93069925aed6191c838065969d8f9773" style="width: 100.0%; height: 100.0%;">基隆市</div>`)[0];
+                popup_688e25de1a443b824afc9c754820613b.setContent(html_93069925aed6191c838065969d8f9773);
+            
+        
+
+        marker_548cba7bb883349d34a356a1c004f9b5.bindPopup(popup_688e25de1a443b824afc9c754820613b)
+        ;
+
+        
+    
+    
+            marker_548cba7bb883349d34a356a1c004f9b5.bindTooltip(
+                `<div>
+                     基隆市 的天氣狀況：多雲短暫陣雨
+最高溫度：27°C
+最低溫度：26°C
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_980d117d1792cab240fd76f7bc56478b = L.marker(
+                [24.8038, 120.969],
+                {}
+            ).addTo(map_bffaed16a83993aa0d621efeac59a142);
+        
+    
+        var popup_d0f72756c8b2befd939de26a02c47a56 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_740256252ea5d5f68fc6f09b2fbae211 = $(`<div id="html_740256252ea5d5f68fc6f09b2fbae211" style="width: 100.0%; height: 100.0%;">新竹市</div>`)[0];
+                popup_d0f72756c8b2befd939de26a02c47a56.setContent(html_740256252ea5d5f68fc6f09b2fbae211);
+            
+        
+
+        marker_980d117d1792cab240fd76f7bc56478b.bindPopup(popup_d0f72756c8b2befd939de26a02c47a56)
+        ;
+
+        
+    
+    
+            marker_980d117d1792cab240fd76f7bc56478b.bindTooltip(
+                `<div>
+                     新竹市 的天氣狀況：多雲
+最高溫度：28°C
+最低溫度：26°C
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_8e43c445b420ec4520203d630aec591b = L.marker(
+                [23.4824, 120.4333],
+                {}
+            ).addTo(map_bffaed16a83993aa0d621efeac59a142);
+        
+    
+        var popup_395b762850e5aa3086535d52188fdb90 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_55ba5655170b6d8f7f8b4624b9636f12 = $(`<div id="html_55ba5655170b6d8f7f8b4624b9636f12" style="width: 100.0%; height: 100.0%;">嘉義市</div>`)[0];
+                popup_395b762850e5aa3086535d52188fdb90.setContent(html_55ba5655170b6d8f7f8b4624b9636f12);
+            
+        
+
+        marker_8e43c445b420ec4520203d630aec591b.bindPopup(popup_395b762850e5aa3086535d52188fdb90)
+        ;
+
+        
+    
+    
+            marker_8e43c445b420ec4520203d630aec591b.bindTooltip(
+                `<div>
+                     嘉義市 的天氣狀況：陰時多雲
+最高溫度：31°C
+最低溫度：28°C
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_2b8bb1c2fff0369dd9eeda2058598af0 = L.marker(
+                [24.8038, 121.0],
+                {}
+            ).addTo(map_bffaed16a83993aa0d621efeac59a142);
+        
+    
+        var popup_007d66511739fe95010993cad2b65b39 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_c6aacee42ac43cc16b840964c085c165 = $(`<div id="html_c6aacee42ac43cc16b840964c085c165" style="width: 100.0%; height: 100.0%;">新竹縣</div>`)[0];
+                popup_007d66511739fe95010993cad2b65b39.setContent(html_c6aacee42ac43cc16b840964c085c165);
+            
+        
+
+        marker_2b8bb1c2fff0369dd9eeda2058598af0.bindPopup(popup_007d66511739fe95010993cad2b65b39)
+        ;
+
+        
+    
+    
+            marker_2b8bb1c2fff0369dd9eeda2058598af0.bindTooltip(
+                `<div>
+                     新竹縣 的天氣狀況：多雲
+最高溫度：28°C
+最低溫度：26°C
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_bae3444f3457522f85fcc56c5ea30e5d = L.marker(
+                [24.5682, 120.8208],
+                {}
+            ).addTo(map_bffaed16a83993aa0d621efeac59a142);
+        
+    
+        var popup_58e0151f035bff44e9e56379238f1168 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_55fe186347dffb01e0b6ec05843e33d6 = $(`<div id="html_55fe186347dffb01e0b6ec05843e33d6" style="width: 100.0%; height: 100.0%;">苗栗縣</div>`)[0];
+                popup_58e0151f035bff44e9e56379238f1168.setContent(html_55fe186347dffb01e0b6ec05843e33d6);
+            
+        
+
+        marker_bae3444f3457522f85fcc56c5ea30e5d.bindPopup(popup_58e0151f035bff44e9e56379238f1168)
+        ;
+
+        
+    
+    
+            marker_bae3444f3457522f85fcc56c5ea30e5d.bindTooltip(
+                `<div>
+                     苗栗縣 的天氣狀況：多雲
+最高溫度：29°C
+最低溫度：27°C
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_ba479900f7c5f5e4401359b652a018e4 = L.marker(
+                [24.0694, 120.54],
+                {}
+            ).addTo(map_bffaed16a83993aa0d621efeac59a142);
+        
+    
+        var popup_729ac1b2807ed88887b265cd5083f7a0 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_0c3d6d3d60d7421bf90b9bab47cfcbc0 = $(`<div id="html_0c3d6d3d60d7421bf90b9bab47cfcbc0" style="width: 100.0%; height: 100.0%;">彰化縣</div>`)[0];
+                popup_729ac1b2807ed88887b265cd5083f7a0.setContent(html_0c3d6d3d60d7421bf90b9bab47cfcbc0);
+            
+        
+
+        marker_ba479900f7c5f5e4401359b652a018e4.bindPopup(popup_729ac1b2807ed88887b265cd5083f7a0)
+        ;
+
+        
+    
+    
+            marker_ba479900f7c5f5e4401359b652a018e4.bindTooltip(
+                `<div>
+                     彰化縣 的天氣狀況：多雲
+最高溫度：30°C
+最低溫度：28°C
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_0434fb19e6b6e120efc708b7fac1a679 = L.marker(
+                [23.9, 120.8],
+                {}
+            ).addTo(map_bffaed16a83993aa0d621efeac59a142);
+        
+    
+        var popup_903bc3cdded4ef2e4e42b9b39c62d8cc = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_77d41437d6fc1ebc757ed1cde3a91c46 = $(`<div id="html_77d41437d6fc1ebc757ed1cde3a91c46" style="width: 100.0%; height: 100.0%;">南投縣</div>`)[0];
+                popup_903bc3cdded4ef2e4e42b9b39c62d8cc.setContent(html_77d41437d6fc1ebc757ed1cde3a91c46);
+            
+        
+
+        marker_0434fb19e6b6e120efc708b7fac1a679.bindPopup(popup_903bc3cdded4ef2e4e42b9b39c62d8cc)
+        ;
+
+        
+    
+    
+            marker_0434fb19e6b6e120efc708b7fac1a679.bindTooltip(
+                `<div>
+                     南投縣 的天氣狀況：多雲午後短暫雷陣雨
+最高溫度：31°C
+最低溫度：28°C
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_e9a76dddda7244adf07a717c542db534 = L.marker(
+                [23.7, 120.45],
+                {}
+            ).addTo(map_bffaed16a83993aa0d621efeac59a142);
+        
+    
+        var popup_8a2bec2ea261e26060677718657f40d4 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_9b2f5fefbdb6bdc6c6253a0d162c091e = $(`<div id="html_9b2f5fefbdb6bdc6c6253a0d162c091e" style="width: 100.0%; height: 100.0%;">雲林縣</div>`)[0];
+                popup_8a2bec2ea261e26060677718657f40d4.setContent(html_9b2f5fefbdb6bdc6c6253a0d162c091e);
+            
+        
+
+        marker_e9a76dddda7244adf07a717c542db534.bindPopup(popup_8a2bec2ea261e26060677718657f40d4)
+        ;
+
+        
+    
+    
+            marker_e9a76dddda7244adf07a717c542db534.bindTooltip(
+                `<div>
+                     雲林縣 的天氣狀況：多雲
+最高溫度：31°C
+最低溫度：28°C
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_287666a2a854f18647e80193541b72ec = L.marker(
+                [23.5, 120.35],
+                {}
+            ).addTo(map_bffaed16a83993aa0d621efeac59a142);
+        
+    
+        var popup_a5eed06d305b3fa248ec85132836d5d1 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_2f071e360d1bb4abe1b3ab0136363e9c = $(`<div id="html_2f071e360d1bb4abe1b3ab0136363e9c" style="width: 100.0%; height: 100.0%;">嘉義縣</div>`)[0];
+                popup_a5eed06d305b3fa248ec85132836d5d1.setContent(html_2f071e360d1bb4abe1b3ab0136363e9c);
+            
+        
+
+        marker_287666a2a854f18647e80193541b72ec.bindPopup(popup_a5eed06d305b3fa248ec85132836d5d1)
+        ;
+
+        
+    
+    
+            marker_287666a2a854f18647e80193541b72ec.bindTooltip(
+                `<div>
+                     嘉義縣 的天氣狀況：多雲
+最高溫度：31°C
+最低溫度：28°C
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_f464c8d43c21c6baf652c029d0c30003 = L.marker(
+                [22.67, 120.5],
+                {}
+            ).addTo(map_bffaed16a83993aa0d621efeac59a142);
+        
+    
+        var popup_780382e6445cc2abba1646464f484b90 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_54138cd79787a5cd6814e6e7a78c2eb7 = $(`<div id="html_54138cd79787a5cd6814e6e7a78c2eb7" style="width: 100.0%; height: 100.0%;">屏東縣</div>`)[0];
+                popup_780382e6445cc2abba1646464f484b90.setContent(html_54138cd79787a5cd6814e6e7a78c2eb7);
+            
+        
+
+        marker_f464c8d43c21c6baf652c029d0c30003.bindPopup(popup_780382e6445cc2abba1646464f484b90)
+        ;
+
+        
+    
+    
+            marker_f464c8d43c21c6baf652c029d0c30003.bindTooltip(
+                `<div>
+                     屏東縣 的天氣狀況：多雲午後短暫雷陣雨
+最高溫度：31°C
+最低溫度：28°C
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_48e1b15b03dbf401081410cea371a70f = L.marker(
+                [24.75, 121.75],
+                {}
+            ).addTo(map_bffaed16a83993aa0d621efeac59a142);
+        
+    
+        var popup_848e858ed9dc52cffb632cf7de639639 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_bc29728c7bfc0198f99fab325e2fc28e = $(`<div id="html_bc29728c7bfc0198f99fab325e2fc28e" style="width: 100.0%; height: 100.0%;">宜蘭縣</div>`)[0];
+                popup_848e858ed9dc52cffb632cf7de639639.setContent(html_bc29728c7bfc0198f99fab325e2fc28e);
+            
+        
+
+        marker_48e1b15b03dbf401081410cea371a70f.bindPopup(popup_848e858ed9dc52cffb632cf7de639639)
+        ;
+
+        
+    
+    
+            marker_48e1b15b03dbf401081410cea371a70f.bindTooltip(
+                `<div>
+                     宜蘭縣 的天氣狀況：多雲短暫陣雨
+最高溫度：28°C
+最低溫度：26°C
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_2efc4955fb6678c9b725f087d6052238 = L.marker(
+                [23.98, 121.58],
+                {}
+            ).addTo(map_bffaed16a83993aa0d621efeac59a142);
+        
+    
+        var popup_944bbf27f4fc830fa674a7922dc58903 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_819617991eab16a1c718d525fdc0efd4 = $(`<div id="html_819617991eab16a1c718d525fdc0efd4" style="width: 100.0%; height: 100.0%;">花蓮縣</div>`)[0];
+                popup_944bbf27f4fc830fa674a7922dc58903.setContent(html_819617991eab16a1c718d525fdc0efd4);
+            
+        
+
+        marker_2efc4955fb6678c9b725f087d6052238.bindPopup(popup_944bbf27f4fc830fa674a7922dc58903)
+        ;
+
+        
+    
+    
+            marker_2efc4955fb6678c9b725f087d6052238.bindTooltip(
+                `<div>
+                     花蓮縣 的天氣狀況：多雲時晴
+最高溫度：30°C
+最低溫度：28°C
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_71b37d3ac57df988fe66ffb14cae67e3 = L.marker(
+                [22.75, 121.1],
+                {}
+            ).addTo(map_bffaed16a83993aa0d621efeac59a142);
+        
+    
+        var popup_5c32bba66dccb068498e9712e27790f2 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_97d0f56ea525f95c41119079bb1862a6 = $(`<div id="html_97d0f56ea525f95c41119079bb1862a6" style="width: 100.0%; height: 100.0%;">臺東縣</div>`)[0];
+                popup_5c32bba66dccb068498e9712e27790f2.setContent(html_97d0f56ea525f95c41119079bb1862a6);
+            
+        
+
+        marker_71b37d3ac57df988fe66ffb14cae67e3.bindPopup(popup_5c32bba66dccb068498e9712e27790f2)
+        ;
+
+        
+    
+    
+            marker_71b37d3ac57df988fe66ffb14cae67e3.bindTooltip(
+                `<div>
+                     臺東縣 的天氣狀況：多雲時晴
+最高溫度：30°C
+最低溫度：27°C
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_c5c84791729a9f2690359adf1017944a = L.marker(
+                [23.57, 119.6],
+                {}
+            ).addTo(map_bffaed16a83993aa0d621efeac59a142);
+        
+    
+        var popup_9b793a96fbe8d5fd3c140a601d806638 = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_ff56aa00db17397c02678acaf6728a71 = $(`<div id="html_ff56aa00db17397c02678acaf6728a71" style="width: 100.0%; height: 100.0%;">澎湖縣</div>`)[0];
+                popup_9b793a96fbe8d5fd3c140a601d806638.setContent(html_ff56aa00db17397c02678acaf6728a71);
+            
+        
+
+        marker_c5c84791729a9f2690359adf1017944a.bindPopup(popup_9b793a96fbe8d5fd3c140a601d806638)
+        ;
+
+        
+    
+    
+            marker_c5c84791729a9f2690359adf1017944a.bindTooltip(
+                `<div>
+                     澎湖縣 的天氣狀況：晴時多雲
+最高溫度：28°C
+最低溫度：26°C
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_c118ab95639afa96464abb1dd6ee1b8e = L.marker(
+                [24.45, 118.35],
+                {}
+            ).addTo(map_bffaed16a83993aa0d621efeac59a142);
+        
+    
+        var popup_f23e5dc91ea7051dba43b0153a01801f = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_0219fce541e71c31eaa6f2e0aaa0e6f9 = $(`<div id="html_0219fce541e71c31eaa6f2e0aaa0e6f9" style="width: 100.0%; height: 100.0%;">金門縣</div>`)[0];
+                popup_f23e5dc91ea7051dba43b0153a01801f.setContent(html_0219fce541e71c31eaa6f2e0aaa0e6f9);
+            
+        
+
+        marker_c118ab95639afa96464abb1dd6ee1b8e.bindPopup(popup_f23e5dc91ea7051dba43b0153a01801f)
+        ;
+
+        
+    
+    
+            marker_c118ab95639afa96464abb1dd6ee1b8e.bindTooltip(
+                `<div>
+                     金門縣 的天氣狀況：多雲
+最高溫度：29°C
+最低溫度：26°C
+                 </div>`,
+                {"sticky": true}
+            );
+        
+    
+            var marker_758f91fa9e16017b1335c0798272708f = L.marker(
+                [26.15, 119.95],
+                {}
+            ).addTo(map_bffaed16a83993aa0d621efeac59a142);
+        
+    
+        var popup_e0c663378248d9d3d98c9104b62d413a = L.popup({"maxWidth": "100%"});
+
+        
+            
+                var html_e840e0fa0b7b2eedeba22461e2cfd522 = $(`<div id="html_e840e0fa0b7b2eedeba22461e2cfd522" style="width: 100.0%; height: 100.0%;">連江縣</div>`)[0];
+                popup_e0c663378248d9d3d98c9104b62d413a.setContent(html_e840e0fa0b7b2eedeba22461e2cfd522);
+            
+        
+
+        marker_758f91fa9e16017b1335c0798272708f.bindPopup(popup_e0c663378248d9d3d98c9104b62d413a)
+        ;
+
+        
+    
+    
+            marker_758f91fa9e16017b1335c0798272708f.bindTooltip(
+                `<div>
+                     連江縣 的天氣狀況：陰天
+最高溫度：24°C
+最低溫度：22°C
+                 </div>`,
+                {"sticky": true}
+            );
+        
+</script>
+</html>
