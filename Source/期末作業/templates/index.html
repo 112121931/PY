@@ -4,11 +4,32 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Weather Map</title>
+    <style>
+        #map {
+            height: 500px;
+            width: 100%;
+        }
+    </style>
+    <script>
+        function refreshMap() {
+            fetch('/refresh_map', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data.message);
+                document.getElementById('mapFrame').src = '/map';
+            })
+            .catch(error => console.error('Error:', error));
+        }
+    </script>
 </head>
 <body>
     <h1>台灣各縣市天氣</h1>
-    <div>
-        {% include "map.html" %}
-    </div>
+    <button onclick="refreshMap()">刷新地圖</button>
+    <iframe id="mapFrame" src="/map" width="100%" height="500px"></iframe>
 </body>
 </html>
