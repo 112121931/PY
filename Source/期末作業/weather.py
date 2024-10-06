@@ -41,6 +41,4 @@ def get_weather_map():
         tooltip=get_weather(city)
     ).add_to(m)
 
-    # 將地圖保存為HTML文件
-    m.save('templates/map.html')
     return m

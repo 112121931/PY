@@ -25,14 +25,13 @@ def query():
         result = f"實價登錄資訊下載完成"
     elif option == 'weather':
         # 這裡可以加入查詢天氣的邏輯
-        result = f"<iframe id=\"result_frame\" src=\"/map\" width=\"100%\" height=\"100%\"></iframe>"
+        result = get_weather_map()._repr_html_()
     elif option == 'real_estate':
         # 這裡可以加入查詢實價登錄的邏輯
         result = f"查詢 {location} 的實價登錄資訊"
     else:
         result = "無效的選項"
 
-    
     return render_template_string(result)
 
 if __name__ == '__main__':    
