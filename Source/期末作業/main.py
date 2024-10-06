@@ -6,11 +6,6 @@ from realestate import query_real_estate, download_and_extract_data
 
 app = Flask(__name__)
 
-@app.route('/map')
-def map_view():    
-    m = get_weather_map()
-    return render_template('map.html')
-
 @app.route('/')
 def index():
     return render_template('index.html')
@@ -19,6 +14,9 @@ def index():
 def query():
     option = request.form.get('option')
     location = request.form.get('location')
+    min_price = int(request.form.get('min_price_slider'))
+    max_price = int(request.form.get('max_price_slider'))
+
     result = ""
     if option == "download_real_estate":
         download_and_extract_data()
@@ -28,7 +26,7 @@ def query():
         result = get_weather_map()._repr_html_()
     elif option == 'real_estate':
         # 這裡可以加入查詢實價登錄的邏輯
-        result = f"查詢 {location} 的實價登錄資訊"
+        result = query_real_estate(location, min_price, max_price)
     else:
         result = "無效的選項"
 
