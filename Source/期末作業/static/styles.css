@@ -1,0 +1,35 @@
+.slidecontainer {
+    width: 100%; /* 外部容器的寬度 */
+}
+
+.slider {
+    -webkit-appearance: none; /* 覆蓋默認的 CSS 樣式 */
+    appearance: none;
+    width: 100%; /* 全寬 */
+    height: 25px; /* 指定高度 */
+    background: #d3d3d3; /* 灰色背景 */
+    outline: none; /* 移除外框 */
+    opacity: 0.7; /* 設置透明度 */
+    -webkit-transition: .2s; /* 0.2 秒的過渡效果 */
+    transition: opacity .2s;
+}
+
+.slider:hover {
+    opacity: 1; /* 滑鼠懸停時完全顯示 */
+}
+
+.slider::-webkit-slider-thumb {
+    -webkit-appearance: none; /* 覆蓋默認外觀 */
+    appearance: none;
+    width: 25px; /* 指定滑動條手柄的寬度 */
+    height: 25px; /* 手柄高度 */
+    background: #04AA6D; /* 綠色背景 */
+    cursor: pointer; /* 滑鼠懸停時顯示指針 */
+}
+
+.slider::-moz-range-thumb {
+    width: 25px; /* 指定滑動條手柄的寬度 */
+    height: 25px; /* 手柄高度 */
+    background: #04AA6D; /* 綠色背景 */
+    cursor: pointer; /* 滑鼠懸停時顯示指針 */
+}

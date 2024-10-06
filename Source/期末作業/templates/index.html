@@ -3,7 +3,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+
     <h1>實價登錄查詢系統</h1>
     <form action="/query" method="post" target="result_frame">
         <label for="option">選擇查詢類型：</label>
