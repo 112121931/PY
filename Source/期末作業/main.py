@@ -1,7 +1,5 @@
-import os
-from flask import Flask, render_template, request, jsonify, render_template_string
-import requests
-from weather import get_weather, get_weather_map
+from flask import Flask, render_template, request, render_template_string
+from weather import  get_weather_map
 from realestate import query_real_estate, download_and_extract_data
 
 app = Flask(__name__)
