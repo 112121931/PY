@@ -5,17 +5,11 @@ from weather import get_weather, get_weather_map
 from realestate import query_real_estate, download_and_extract_data
 
 app = Flask(__name__)
-    
-@app.route('/map')
-def map_view():  
-    
-    return render_template('map.html')
 
-@app.route('/refresh_map', methods=['POST'])
-def refresh_map():
-    # 重新生成地圖並返回成功消息
-    map_view()
-    return jsonify({"message": "Map refreshed successfully"})
+@app.route('/map')
+def map_view():    
+    m = get_weather_map()
+    return render_template('map.html')
 
 @app.route('/')
 def index():
@@ -28,7 +22,6 @@ def query():
     result = ""
     if option == 'weather':
         # 這裡可以加入查詢天氣的邏輯
-
         result = f"<iframe id=\"result_frame\" src=\"/map\" width=\"100%\" height=\"100%\"></iframe>"
     elif option == 'real_estate':
         # 這裡可以加入查詢實價登錄的邏輯
