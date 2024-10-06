@@ -1,3 +1,6 @@
+# 作者: 112121931 林智鴻
+# 描述: 於氣象資訊開放平臺，取得相關氣資訊
+
 import requests
 import folium
 from cities import get_cities

@@ -1,3 +1,6 @@
+# 作者: 112121931 林智鴻
+# 描述: 主程式，以Flask框架建構主頁面與整合各子功能
+
 from flask import Flask, render_template, request, render_template_string
 from weather import  get_weather_map
 from realestate import query_real_estate, download_and_extract_data

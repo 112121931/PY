@@ -1,3 +1,7 @@
+# 作者: 112120900 鄭怡婷
+# 描述: 於不動產成交案件，實際資料供應系統下載實價登錄資訊檔案
+#       查詢實價登入資訊與結合google map，查詢地點
+
 import os
 import requests
 import zipfile
