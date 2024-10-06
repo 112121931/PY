@@ -3,54 +3,68 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>實價登錄查詢系統</title>
+    <!-- 引用 Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
     <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
-
-    <h1>實價登錄查詢系統</h1>
-    <form action="/query" method="post" target="result_frame">
-        <label for="option">選擇查詢類型：</label>
-        <select id="option" name="option">
-            <option value="download_real_estate">下載實價登錄資訊</option>
-            <option value="real_estate">查詢指定地點實價登錄資訊</option>
-            <option value="weather">查詢台灣各地天氣</option>
-        </select>
-        <br><br>
-        <label for="location">選擇地點：</label>
-        <select id="location" name="location" required>
-            <option value="臺北市">臺北市</option>
-            <option value="新北市">新北市</option>
-            <option value="桃園市">桃園市</option>
-            <option value="臺中市">臺中市</option>
-            <option value="臺南市">臺南市</option>
-            <option value="高雄市">高雄市</option>
-            <option value="基隆市">基隆市</option>
-            <option value="新竹市">新竹市</option>
-            <option value="嘉義市">嘉義市</option>
-            <option value="新竹縣">新竹縣</option>
-            <option value="苗栗縣">苗栗縣</option>
-            <option value="彰化縣">彰化縣</option>
-            <option value="南投縣">南投縣</option>
-            <option value="雲林縣">雲林縣</option>
-            <option value="嘉義縣">嘉義縣</option>
-            <option value="屏東縣">屏東縣</option>
-            <option value="宜蘭縣">宜蘭縣</option>
-            <option value="花蓮縣">花蓮縣</option>
-            <option value="臺東縣">臺東縣</option>
-            <option value="澎湖縣">澎湖縣</option>
-            <option value="金門縣">金門縣</option>
-            <option value="連江縣">連江縣</option>
-        </select>
-        <br><br>
-        <div class="slidecontainer">
-            <input type="range" min="0" max="100" value="0" class="slider" id="min_price_slider" name="min_price_slider">
-            <p>最低價格(百萬): <span id="min_price_Value" name="min_price_Value">0</span></p>
-        </div>
-        <div class="slidecontainer"></div>
-            <input type="range" min="1" max="100" value="50" class="slider" id="max_price_slider" name="max_price_slider">
-            <p>最高價格(百萬): <span id="max_price_Value" name="max_price_Value">50</span></p>
-        </div>
-        <button type="submit">查詢</button>
-    </form>
-    <iframe id="result_frame" name="result_frame" width="800" height="600"></iframe>
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="text-center">實價登錄查詢系統</h1>
+        <form action="/query" method="post" target="result_frame" class="mt-4">
+            <div class="form-group">
+                <label for="option">選擇查詢類型：</label>
+                <select id="option" name="option" class="form-control">
+                    <option value="download_real_estate">下載實價登錄資訊</option>
+                    <option value="real_estate">查詢指定地點實價登錄資訊</option>
+                    <option value="weather">查詢台灣各地天氣</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="location">選擇地點：</label>
+                <select id="location" name="location" class="form-control" required>
+                    <option value="臺北市">臺北市</option>
+                    <option value="新北市">新北市</option>
+                    <option value="桃園市">桃園市</option>
+                    <option value="臺中市">臺中市</option>
+                    <option value="臺南市">臺南市</option>
+                    <option value="高雄市">高雄市</option>
+                    <option value="基隆市">基隆市</option>
+                    <option value="新竹市">新竹市</option>
+                    <option value="嘉義市">嘉義市</option>
+                    <option value="新竹縣">新竹縣</option>
+                    <option value="苗栗縣">苗栗縣</option>
+                    <option value="彰化縣">彰化縣</option>
+                    <option value="南投縣">南投縣</option>
+                    <option value="雲林縣">雲林縣</option>
+                    <option value="嘉義縣">嘉義縣</option>
+                    <option value="屏東縣">屏東縣</option>
+                    <option value="宜蘭縣">宜蘭縣</option>
+                    <option value="花蓮縣">花蓮縣</option>
+                    <option value="臺東縣">臺東縣</option>
+                    <option value="澎湖縣">澎湖縣</option>
+                    <option value="金門縣">金門縣</option>
+                    <option value="連江縣">連江縣</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="min_price_slider">最低價格(百萬):</label>
+                <input type="range" min="0" max="100" value="0" class="form-control-range" id="min_price_slider" name="min_price_slider">
+                <p>最低價格(百萬): <span id="min_price_Value" name="min_price_Value">0</span></p>
+            </div>
+            <div class="form-group">
+                <label for="max_price_slider">最高價格(百萬):</label>
+                <input type="range" min="1" max="100" value="50" class="form-control-range" id="max_price_slider" name="max_price_slider">
+                <p>最高價格(百萬): <span id="max_price_Value" name="max_price_Value">50</span></p>
+            </div>
+            <button type="submit" class="btn btn-primary">查詢</button>
+        </form>
+        <iframe id="result_frame" name="result_frame" width="100%" height="600" class="mt-4"></iframe>
+    </div>
+    <!-- 引用 Bootstrap JavaScript 和依賴 -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
         var min_price_slider = document.getElementById("min_price_slider");
         var min_price_output = document.getElementById("min_price_Value");
@@ -70,7 +84,6 @@
             max_price_output.innerHTML = this.value;
         }
 
-
         document.getElementById('queryForm').onsubmit = function(event) {
             event.preventDefault();
             fetch('/query', {
@@ -82,8 +95,6 @@
                 document.getElementById('result_frame').contentDocument.body.innerHTML = html;
             });
         };
-
-
     </script>
-</head>
+</body>
 </html>
