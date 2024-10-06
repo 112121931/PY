@@ -38,10 +38,37 @@
             <option value="連江縣">連江縣</option>
         </select>
         <br><br>
+        <div class="slidecontainer">
+            <input type="range" min="0" max="100" value="0" class="slider" id="min_price_slider" name="min_price_slider">
+            <p>最低價格(百萬): <span id="min_price_Value" name="min_price_Value">0</span></p>
+        </div>
+        <div class="slidecontainer"></div>
+            <input type="range" min="1" max="100" value="50" class="slider" id="max_price_slider" name="max_price_slider">
+            <p>最高價格(百萬): <span id="max_price_Value" name="max_price_Value">50</span></p>
+        </div>
         <button type="submit">查詢</button>
     </form>
-    <iframe id="result_frame" name="result_frame" width="600" height="400"></iframe>
+    <iframe id="result_frame" name="result_frame" width="800" height="600"></iframe>
     <script>
+        var min_price_slider = document.getElementById("min_price_slider");
+        var min_price_output = document.getElementById("min_price_Value");
+        min_price_output.innerHTML = min_price_slider.value; // 顯示默認滑動條值
+
+        // 更新當前滑動條值（每次拖動滑動條手柄時）
+        min_price_slider.oninput = function() {
+            min_price_output.innerHTML = this.value;
+        }
+
+        var max_price_slider = document.getElementById("max_price_slider");
+        var max_price_output = document.getElementById("max_price_Value");
+        max_price_output.innerHTML = max_price_slider.value; // 顯示默認滑動條值
+
+        // 更新當前滑動條值（每次拖動滑動條手柄時）
+        max_price_slider.oninput = function() {
+            max_price_output.innerHTML = this.value;
+        }
+
+
         document.getElementById('queryForm').onsubmit = function(event) {
             event.preventDefault();
             fetch('/query', {
@@ -53,6 +80,8 @@
                 document.getElementById('result_frame').contentDocument.body.innerHTML = html;
             });
         };
+
+
     </script>
 </head>
 </html>
