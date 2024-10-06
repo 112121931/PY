@@ -1,4 +1,6 @@
 import requests
+import folium
+from cities import get_cities
 
 API_URL = "https://opendata.cwa.gov.tw/api/v1/rest/datastore/F-C0032-001"
 API_KEY = "CWA-D5B056EA-33C1-4099-9FE8-C6282F14A951"
@@ -26,3 +28,19 @@ def get_weather(city):
             return f"無法取得 {city} 的天氣資料。"
     else:
         return "API 請求失敗，請稍後再試。"
+    
+def get_weather_map():
+    # 創建地圖
+    m = folium.Map(location=[23.6978, 120.9605], zoom_start=8)
+
+    # 添加標記
+    for city, coords in get_cities().items():
+        folium.Marker(
+        location=coords,
+        popup=city,
+        tooltip=get_weather(city)
+    ).add_to(m)
+
+    # 將地圖保存為HTML文件
+    m.save('templates/map.html')
+    return m

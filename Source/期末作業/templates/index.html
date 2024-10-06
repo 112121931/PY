@@ -3,33 +3,56 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Weather Map</title>
-    <style>
-        #map {
-            height: 500px;
-            width: 100%;
-        }
-    </style>
+    
+    <h1>實價登錄查詢系統</h1>
+    <form action="/query" method="post" target="result_frame">
+        <label for="option">選擇查詢類型：</label>
+        <select id="option" name="option">
+            <option value="real_estate">查詢指定地點實價登錄資訊</option>
+            <option value="weather">查詢台灣各地天氣</option>
+        </select>
+        <br><br>
+        <label for="location">選擇地點：</label>
+        <select id="location" name="location" required>
+            <option value="台北市">台北市</option>
+            <option value="新北市">新北市</option>
+            <option value="桃園市">桃園市</option>
+            <option value="台中市">台中市</option>
+            <option value="台南市">台南市</option>
+            <option value="高雄市">高雄市</option>
+            <option value="基隆市">基隆市</option>
+            <option value="新竹市">新竹市</option>
+            <option value="嘉義市">嘉義市</option>
+            <option value="新竹縣">新竹縣</option>
+            <option value="苗栗縣">苗栗縣</option>
+            <option value="彰化縣">彰化縣</option>
+            <option value="南投縣">南投縣</option>
+            <option value="雲林縣">雲林縣</option>
+            <option value="嘉義縣">嘉義縣</option>
+            <option value="屏東縣">屏東縣</option>
+            <option value="宜蘭縣">宜蘭縣</option>
+            <option value="花蓮縣">花蓮縣</option>
+            <option value="台東縣">台東縣</option>
+            <option value="澎湖縣">澎湖縣</option>
+            <option value="金門縣">金門縣</option>
+            <option value="連江縣">連江縣</option>
+        </select>
+        <br><br>
+        <button type="submit">查詢</button>
+    </form>
+    <iframe id="result_frame" name="result_frame" width="600" height="400"></iframe>
     <script>
-        function refreshMap() {
-            fetch('/refresh_map', {
+        document.getElementById('queryForm').onsubmit = function(event) {
+            event.preventDefault();
+            fetch('/query', {
                 method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                }
+                body: new FormData(this)
             })
-            .then(response => response.json())
-            .then(data => {
-                console.log(data.message);
-                document.getElementById('mapFrame').src = '/map';
-            })
-            .catch(error => console.error('Error:', error));
-        }
+            .then(response => response.text())
+            .then(html => {
+                document.getElementById('result_frame').contentDocument.body.innerHTML = html;
+            });
+        };
     </script>
 </head>
-<body>
-    <h1>台灣各縣市天氣</h1>
-    <button onclick="refreshMap()">刷新地圖</button>
-    <iframe id="mapFrame" src="/map" width="100%" height="500px"></iframe>
-</body>
 </html>
