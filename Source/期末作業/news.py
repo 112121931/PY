@@ -1,3 +1,6 @@
+# 作者: 112121931 林智鴻
+# 描述: 自由時報區域新聞爬虫程式
+
 import requests
 from bs4 import BeautifulSoup
 import ipywidgets as widgets
