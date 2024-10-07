@@ -45,11 +45,6 @@ city_files = {
     '澎湖縣': 'x_lvr_land_a.csv',
 }
 
-
-# 確保實價登錄資料夾存在
-if not os.path.exists(DATA_DIR):
-    os.makedirs(DATA_DIR)
-
 # 下載並解壓縮實價登錄資料
 def download_and_extract_data():
     # 確保實價登錄資料夾存在
