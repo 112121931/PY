@@ -5,7 +5,7 @@ from flask import Flask, render_template, request, render_template_string
 from weather import  get_weather_map
 from realestate import query_real_estate, download_and_extract_data
 from news import query_news_list
-
+from bubbles import print_bubbles
 app = Flask(__name__)
 
 @app.route('/')
@@ -31,6 +31,8 @@ def query():
         result = query_real_estate(location, min_price, max_price)
     elif option == "news":
         result = query_news_list(location)
+    elif option == "bubbles":
+        result = print_bubbles(location, min_price, max_price)
     else:
         result = "無效的選項"
 
