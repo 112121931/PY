@@ -1,12 +1,8 @@
 import base64
 import io
-import requests
-import zipfile
-import os
-import pandas as pd
-import json
-import ipywidgets as widgets
 from IPython.display import display
+import matplotlib
+matplotlib.use('Agg')
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches
 from matplotlib import font_manager, rcParams
