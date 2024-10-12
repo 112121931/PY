@@ -86,12 +86,14 @@ def check_guess(guess, guessed):
 
     #猜測的數字不可重覆
     for item in guessed:
-        if guess == item[0]:
+        if guess == item[0]: #數字重覆
             return False
         #  C.每一次的猜測, 都需符合前面的猜測結果
         a_count, b_count = get_feedback(guess, item[0])
         if a_count != item[1] or b_count != item[2]:
             return False
+
+    return True
 
 def get_secretnumber():
     '''
@@ -107,33 +109,108 @@ def get_secretnumber():
         secret_number = [random.randint(0, 9) for _ in range(4)]
     return secret_number
 
+def set_secret():
+    '''
+    設定答案
+    '''
+    print("請輸入四位不重複數字，自動展示推演過程")
+    print("也可不輸入，由您來回答我每一次的結果")
+    secret_number = []
+    secret_string = input("請輸入：")
+    if secret_string != "":
+        secret_number = [int(x) for x in str(secret_string).zfill(4)]
+
+    return secret_string, secret_number
+
+def generate_guess_ex(possible_digits, guessed):
+    '''
+    產生猜測直到符合要求
+    '''
+    guess = generate_guess(possible_digits)
+    checkcount = 0
+    while check_guess(guess, guessed) is False: #不能符合前幾項要求時, 重新產生新的數字
+        checkcount += 1
+        if checkcount == 1000:
+            print("您提供的答案似乎有誤，我覺得可能無解")
+            break
+        guess = generate_guess(possible_digits)
+    return guess
+
+def remove_guess_from_possible(guess, possible_digits):
+    """
+    從可能的數字列表中移除猜測的數字。
+    
+    :param guess: 當前猜測的數字列表
+    :param possible_digits: 可能的數字列表
+    """
+    for j in range(4):
+        if guess[j] in possible_digits[j]:
+            possible_digits[j].remove(guess[j])
+
+def keep_only_guess_in_possible(guess, possible_digits):
+    """
+    保留可能的數字列表中與猜測數字匹配的數字。
+    
+    :param guess: 當前猜測的數字列表
+    :param possible_digits: 可能的數字列表
+    """
+    for k in range(4):
+        temp = [item for item in possible_digits[k] if item in guess]
+        possible_digits[k] = temp
+
+def proc(a_count, b_count, guess, possible_digits):
+    """
+    根據回饋更新可能的數字列表。
+    
+    :param a_count: 猜對位置和數字的個數
+    :param b_count: 猜對數字但位置不對的個數
+    :param guess: 當前猜測的數字列表
+    :param possible_digits: 可能的數字列表
+    :return: 更新後的可能數字列表
+    """
+    if a_count == 0:
+        # 如果 a_count 為 0，移除所有猜測的數字
+        remove_guess_from_possible(guess, possible_digits)
+    elif a_count != 0 and b_count == 0:
+        # 如果 a_count 不為 0 且 b_count 為 0，移除所有不在當前位置的猜測數字
+        for k in range(4):
+            for j in range(4):
+                if j != k and guess[k] in possible_digits[j]:
+                    possible_digits[j].remove(guess[k])
+    elif a_count + b_count == 4:
+        # 如果 a_count 和 b_count 的總和為 4，保留所有猜測的數字
+        keep_only_guess_in_possible(guess, possible_digits)
+
+    return possible_digits
+
+def fail_proc(a_count, guessed):
+    '''
+    失敗後覆驗答案是否合理
+    '''
+    if a_count != 4:
+        print("很抱歉，我猜不到答案。")
+        answer_str = input("請問答案是：")
+        answer = [int(x) for x in str(answer_str).zfill(4)]
+        for item in guessed:
+            a_count, b_count = get_feedback(item[0], answer)
+            if (a_count != item[1] or b_count != item[2]):
+                print(f"你在 {item[0]} 時，回答的結果有誤喔!!我哪猜的出來啊!!")
+
 def play_game():
     """
     玩 1A1B 遊戲。
     """
+    guessed = []
     # 初始化可能的數字列表
     possible_digits = [list(range(10)) for _ in range(4)]
     # 設定秘密數字
-    print("請輸入四位不重複數字，自動展示推演過程")
-    print("也可不輸入，由您來回答我每一次的結果")
-    secret_string = input("請輸入：")
-    secret_number= []
-    if secret_string != "":
-        secret_number = [int(x) for x in str(secret_string).zfill(4)]
+    secret_string, secret_number = set_secret()
 
     # 開始猜測
-    guessed = []
     # 8.猜測10還猜不到, 就放棄
     for i in range(10):
         # 生成猜測
-        guess = generate_guess(possible_digits)
-        checkcount = 0
-        while check_guess(guess, guessed) is False: #不能符合前幾項要求時, 重新產生新的數字
-            checkcount += 1
-            if checkcount == 1000:
-                print("您提供的答案似乎有誤，我覺得可能無解")
-                break
-            guess = generate_guess(possible_digits)
+        guess = generate_guess_ex(possible_digits, guessed)
 
         print(f"猜測: {''.join(str(x) for x in guess)}")
         # 取得回饋
@@ -147,31 +224,7 @@ def play_game():
         print(f"結果: {a_count}A{b_count}B")
 
         # 根據回饋更新可能的數字列表
-        if a_count == 0 and b_count == 0:
-            #目前的四個數字都不可能
-            for j in range(4):
-                if guess[j] in possible_digits[j]:
-                    possible_digits[j].remove(guess[j])
-        elif a_count == 0 and b_count != 0:
-            #目前的數字都不可能出現在目前的位置
-            for j in range(4):
-                if guess[j] in possible_digits[j]:
-                    possible_digits[j].remove(guess[j])
-        elif a_count != 0 and b_count == 0:
-            #目前的數字都只可能出現在目前的位置
-            for k in range(4):
-                for j in range(4):
-                    if j != k and guess[k] in possible_digits[j]:
-                        possible_digits[j].remove(guess[k])
-
-        if a_count + b_count == 4:
-            #不可能有其它的數值
-            for k in range(4):
-                temp = []
-                for item in possible_digits[k]:
-                    if item in guess:
-                        temp.append(item)
-                possible_digits[k] = temp
+        possible_digits = proc(a_count, b_count, guess, possible_digits)
 
         #print(possible_digits[0])
         #print(possible_digits[1])
@@ -184,14 +237,7 @@ def play_game():
 
         guessed.append([guess, a_count, b_count]) #紀錄這次猜測的結果
 
-    if a_count != 4:
-        print("很抱歉，我猜不到答案。")
-        answer_str = input("請問答案是：")
-        answer = [int(x) for x in str(answer_str).zfill(4)]
-        for item in guessed:
-            a_count, b_count = get_feedback(item[0], answer)
-            if (a_count != item[1] or b_count != item[2]):
-                print(f"你在 {item[0]} 時，回答的結果有誤喔!!我哪猜的出來啊!!")
+    fail_proc(a_count, guessed)
 
 def main():
     """
