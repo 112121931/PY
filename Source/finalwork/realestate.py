@@ -1,12 +1,13 @@
+'''
 # 作者: 112120900 鄭怡婷
 # 描述: 於不動產成交案件，實際資料供應系統下載實價登錄資訊檔案
 #       查詢實價登入資訊與結合google map，查詢地點
+'''
 
 import os
-import requests
 import zipfile
+import requests
 import pandas as pd
-from IPython.core.display import HTML
 
 # 實價登錄資料 URL
 ZIP_URL = "https://plvr.land.moi.gov.tw//Download?type=zip&fileName=lvr_landcsv.zip"
@@ -45,40 +46,48 @@ city_files = {
     '澎湖縣': 'x_lvr_land_a.csv',
 }
 
-# 下載並解壓縮實價登錄資料
 def download_and_extract_data():
+    '''
+    # 下載並解壓縮實價登錄資料
+    '''
     # 確保實價登錄資料夾存在
     if not os.path.exists(DATA_DIR):
         print(f"建立{DATA_DIR}資料匣")
         os.makedirs(DATA_DIR)
 
     print("下載實價登錄資料中...")
-    response = requests.get(ZIP_URL)
+    response = requests.get(ZIP_URL, timeout=30)
     with open(ZIP_FILE_PATH, "wb") as zip_file:
         zip_file.write(response.content)
     print("解壓縮資料...")
     with zipfile.ZipFile(ZIP_FILE_PATH, "r") as zip_ref:
         zip_ref.extractall(DATA_DIR)
 
-# 讀取指定城市的 CSV 資料
 def read_city_data(file_name):
+    '''
+    # 讀取指定城市的 CSV 資料
+    '''
     file_path = os.path.join(DATA_DIR, file_name)
     if os.path.exists(file_path):
         df = pd.read_csv(file_path, encoding='utf-8')
-        if df['總價元'].dtype != 'int64' and df['總價元'].dtype != 'float64':
+        if df['總價元'].dtype not in {'int64', 'float64'}:
             df['總價元'] = pd.to_numeric(df['總價元'], errors='coerce')
         return df
-    else:
-        print(f"找不到 {file_name} 的資料")
-        return None
+
+    print(f"找不到 {file_name} 的資料")
+    return None
 
 
-# 生成 Google Maps 連結
 def generate_google_maps_link(address):
+    '''
+    # 生成 Google Maps 連結
+    '''
     return f"https://www.google.com/maps/search/?api=1&query={address}"
 
-# 查詢指定城市的房屋交易資料
 def query_real_estate(city, min_price, max_price):
+    '''
+    # 查詢指定城市的房屋交易資料
+    '''
     if city not in city_files:
         return f"抱歉，目前不支援 {city} 的資料查詢"
 
@@ -89,14 +98,16 @@ def query_real_estate(city, min_price, max_price):
         return f"抱歉，{city} 的{file_name} 資料檔案不存在，請執行『下載實價登錄資訊』"
 
     # 將 "土地位置建物門牌" 欄位內容替換為 Google Maps 連結
-    df['土地位置建物門牌'] = df['土地位置建物門牌'].apply(lambda x: f'<a href="{generate_google_maps_link(x)}" target="_blank">{x}</a>')
+    df['土地位置建物門牌'] = df['土地位置建物門牌'].apply(
+        lambda x: f'<a href="{generate_google_maps_link(x)}" target="_blank">{x}</a>')
 
     # 篩選價格範圍
     filtered_df = df[(df['總價元'] >= min_price * 1000000) & (df['總價元'] <= max_price * 1000000)]
 
     # 顯示篩選後的結果
     if not filtered_df.empty:
-        print(f"符合條件的房屋交易資料：")
-        return filtered_df[['鄉鎮市區', '土地位置建物門牌', '總價元', '單價元平方公尺']].to_html(escape=False, render_links=True)
-    else:
-        return f"沒有符合價格範圍 {min_price} - {max_price} 佰萬元的交易資料。"
+        print("符合條件的房屋交易資料：")
+        return filtered_df[['鄉鎮市區', '土地位置建物門牌', '總價元', '單價元平方公尺']].to_html(
+            escape=False, render_links=True)
+
+    return f"沒有符合價格範圍 {min_price} - {max_price} 佰萬元的交易資料。"
