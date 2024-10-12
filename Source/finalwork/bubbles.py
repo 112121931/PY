@@ -1,14 +1,18 @@
+'''
+# 作者: L
+# 描述: 繪制泡泡圖
+'''
 import base64
 import io
+import matplotlib.pyplot as plt
+from matplotlib import patches
+from matplotlib import rcParams
+import matplotlib.font_manager as fm
 from IPython.display import display
+from final.realestate import read_city_data, city_files
 import matplotlib
 matplotlib.use('Agg')
-import matplotlib.pyplot as plt
-import matplotlib.patches as patches
-from matplotlib import font_manager, rcParams
-import matplotlib as mpl
-import matplotlib.font_manager as fm
-from realestate import read_city_data, city_files
+
 
 zh_font = fm.FontProperties(fname='C:\\Windows\\Fonts\\NotoSansCJKtc-Black.otf')
 
@@ -72,7 +76,7 @@ def plot_bubble_chart(df, city):
     plt.ylabel('總價 (元)', fontproperties=zh_font)
 
     # 添加圖例
-    plt.legend(loc='upper right', bbox_to_anchor=(1.2, 1), title="區域", 
+    plt.legend(loc='upper right', bbox_to_anchor=(1.2, 1), title="區域",
                title_fontproperties=zh_font, prop=zh_font)
 
     # 顯示圖表
@@ -104,9 +108,11 @@ def plot_color_legend(color_map):
     ax.axis('off')
 
     for i, (area, color) in enumerate(color_map.items()):
-        rect = patches.Rectangle((0.1 * i, 0.5), 0.1, 0.4, linewidth=1, edgecolor='black', facecolor=color)
+        rect = patches.Rectangle((0.1 * i, 0.5), 0.1, 0.4, linewidth=1, edgecolor='black',
+                                 facecolor=color)
         ax.add_patch(rect)
-        plt.text(0.1 * i + 0.05, 0.5, area, va='center', ha='center', fontsize=10, fontproperties=zh_font)
+        plt.text(0.1 * i + 0.05, 0.5, area, va='center', ha='center', fontsize=10,
+                 fontproperties=zh_font)
 
     plt.show()
 
