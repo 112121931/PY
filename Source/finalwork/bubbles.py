@@ -8,11 +8,9 @@ import matplotlib.pyplot as plt
 from matplotlib import patches
 from matplotlib import rcParams
 import matplotlib.font_manager as fm
-from IPython.display import display
-from final.realestate import read_city_data, city_files
 import matplotlib
+from realestate import read_city_data, city_files
 matplotlib.use('Agg')
-
 
 zh_font = fm.FontProperties(fname='C:\\Windows\\Fonts\\NotoSansCJKtc-Black.otf')
 
@@ -22,16 +20,19 @@ rcParams['font.sans-serif'] = ['Source Han Serif TW VF']  # 確保安裝了相�
 rcParams['axes.unicode_minus'] = False  # 解決負號顯示問題
 
 def query_real_estate(city, min_price, max_price):
+    '''
+    讀取實價登錄資料
+    '''
 
     if city not in city_files:
         print(f"抱歉，目前不支援 {city} 的資料查詢")
-        return
+        return None
 
     # 讀取資料
     file_name = city_files[city]
     df = read_city_data(file_name)
     if df is None:
-        return
+        return None
 
     # 篩選價格範圍
     filtered_df = df[(df['總價元'] >= min_price * 10000) & (df['總價元'] <= max_price * 10000)]
@@ -41,6 +42,9 @@ def query_real_estate(city, min_price, max_price):
 
 # 繪製泡泡圖的函數
 def plot_bubble_chart(df, city):
+    '''
+    繪製汽泡圖
+    '''
     # 清理數據：移除缺失或無效的數據
     df = df.dropna(subset=['總價元', '建物移轉總面積平方公尺', '鄉鎮市區'])
 
@@ -102,7 +106,7 @@ def plot_color_legend(color_map):
     """
     繪製顏色比照圖
     """
-    fig, ax = plt.subplots(figsize=(12, 1))
+    _, ax = plt.subplots(figsize=(12, 1))
     ax.set_xlim(0, 1)
     ax.set_ylim(0, 1)
     ax.axis('off')
@@ -118,9 +122,11 @@ def plot_color_legend(color_map):
 
 # 房屋查詢按鈕事件
 def print_bubbles(city, min_price, max_price):
+    '''
+    查詢實價登錄資料與繪圖
+    '''
     # 查詢房屋資料
     filtered_df = query_real_estate(city, min_price, max_price)
-    print(filtered_df)
 
     # 確認 df 不為空
     if filtered_df is not None and not filtered_df.empty:
@@ -129,5 +135,5 @@ def print_bubbles(city, min_price, max_price):
         img_base64 = plot_bubble_chart(filtered_df, city)
         img_tag = f'<img src="data:image/png;base64,{img_base64}" alt="Bubble Chart">'
         return img_tag
-    else:
-        print(f"沒有符合價格範圍 {min_price} - {max_price} 萬元的交易資料。")
+
+    return f"沒有符合價格範圍 {min_price} - {max_price} 萬元的交易資料。"
