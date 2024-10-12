@@ -1,3 +1,4 @@
+"""
 # prompt: 1A1B的遊戲,
 # 由使用者輸入一個四位的數字, 若未輸入, 由程式自動產生不重複的4碼數字
 # 透過以下程序來猜答案,
@@ -13,6 +14,7 @@
 # 6.若A+B的結果為4, 則將不是目前的四個數字, 由目前的陣列中移除,
 # 7.回到猜測數字的流程
 # 8.猜測10還猜不到, 就放棄
+"""
 
 import random
 import sys
@@ -38,13 +40,13 @@ def generate_guess(possible_digits):
             sys.exit()
 
         digit = random.choice(possible_digits[i])
-        while(digit in guess) :
+        while digit in guess :
             dupflag = True
             for item in possible_digits[i]:
                 if item not in guess:
                     dupflag = False
-                    break;
-            if dupflag == True:
+                    break
+            if dupflag is True:
                 return None
 
             digit = random.choice(possible_digits[i])
@@ -74,7 +76,7 @@ def get_feedback(guess, secret_number):
 
 def check_guess(guess, guessed):
     '''
-  將這次猜測的的數字, 與先前猜測的數字進行驗證, 去除不合理的猜測
+    將這次猜測的的數字, 與先前猜測的數字進行驗證, 去除不合理的猜測
     '''
     if guessed is None:
         return True
@@ -110,7 +112,7 @@ def play_game():
     玩 1A1B 遊戲。
     """
     # 初始化可能的數字列表
-    possible_digits = [[i for i in range(10)] for _ in range(4)]
+    possible_digits = [list(range(10)) for _ in range(4)]
     # 設定秘密數字
     print("請輸入四位不重複數字，自動展示推演過程")
     print("也可不輸入，由您來回答我每一次的結果")
@@ -126,11 +128,11 @@ def play_game():
         # 生成猜測
         guess = generate_guess(possible_digits)
         checkcount = 0
-        while check_guess(guess, guessed) == False: #不能符合前幾項要求時, 重新產生新的數字
+        while check_guess(guess, guessed) is False: #不能符合前幾項要求時, 重新產生新的數字
             checkcount += 1
             if checkcount == 1000:
-                print(f"您提供的答案似乎有誤，我覺得可能無解")
-                break;
+                print("您提供的答案似乎有誤，我覺得可能無解")
+                break
             guess = generate_guess(possible_digits)
 
         print(f"猜測: {''.join(str(x) for x in guess)}")
@@ -171,21 +173,19 @@ def play_game():
                         temp.append(item)
                 possible_digits[k] = temp
 
-        """
-        print(possible_digits[0])
-        print(possible_digits[1])
-        print(possible_digits[2])
-        print(possible_digits[3])
-        """
+        #print(possible_digits[0])
+        #print(possible_digits[1])
+        #print(possible_digits[2])
+        #print(possible_digits[3])
         # 檢查是否猜對
         if a_count == 4:
             print(f"我用{i+1}次猜對囉！")
             break
-        else :  
-            guessed.append([guess, a_count, b_count]) #紀錄這次猜測的結果
+
+        guessed.append([guess, a_count, b_count]) #紀錄這次猜測的結果
 
     if a_count != 4:
-        print(f"很抱歉，我猜不到答案。")
+        print("很抱歉，我猜不到答案。")
         answer_str = input("請問答案是：")
         answer = [int(x) for x in str(answer_str).zfill(4)]
         for item in guessed:
@@ -194,7 +194,9 @@ def play_game():
                 print(f"你在 {item[0]} 時，回答的結果有誤喔!!我哪猜的出來啊!!")
 
 def main():
-    # 啟動遊戲
+    """
+    啟動遊戲並等待用戶輸入以結束程式。
+    """
     play_game()
     input("請按任一鍵結束程式")
 
