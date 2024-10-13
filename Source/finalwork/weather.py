@@ -3,6 +3,7 @@
 # 描述: 於氣象資訊開放平臺，取得相關氣資訊
 '''
 
+import io
 import requests
 import folium
 from cities import get_cities
@@ -57,4 +58,7 @@ def get_weather_map():
         tooltip=get_weather(city)
     ).add_to(m)
 
-    return m
+    # 使用 branca.element.Element 來獲取 HTML 表示
+    map_html = m.get_root().render()
+
+    return map_html

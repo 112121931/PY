@@ -4,6 +4,7 @@
 '''
 import base64
 import io
+import os
 import matplotlib.pyplot as plt
 from matplotlib import patches
 from matplotlib import rcParams
@@ -12,11 +13,11 @@ import matplotlib
 from realestate import read_city_data, city_files
 matplotlib.use('Agg')
 
-zh_font = fm.FontProperties(fname='C:\\Windows\\Fonts\\NotoSansCJKtc-Black.otf')
-
+font_path = os.path.abspath('fonts/NotoSansCJKtc-Black.otf')
+zh_font = fm.FontProperties(fname=font_path)
 
 # 設定中文字體
-rcParams['font.sans-serif'] = ['Source Han Serif TW VF']  # 確保安裝了相應的字體
+#rcParams['font.sans-serif'] = ['Source Han Serif TW VF']  # 確保安裝了相應的字體
 rcParams['axes.unicode_minus'] = False  # 解決負號顯示問題
 
 def query_real_estate(city, min_price, max_price):
