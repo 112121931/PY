@@ -77,6 +77,9 @@ def query_news_list(location):
     # 使用 pandas 生成 HTML 表格
     df = pd.DataFrame(data, columns=['標題', '鏈接'])
     table_html = df.to_html(escape=False, render_links=True, classes='table table-striped')
-    print(table_html)
+
+    bootstrap_link = "https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+    bootstrap_html = f"<link href=\"{bootstrap_link}\" rel=\"stylesheet\">{table_html}"
+
     # 顯示表格
-    return table_html
+    return bootstrap_html

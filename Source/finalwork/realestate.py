@@ -107,7 +107,13 @@ def query_real_estate(city, min_price, max_price):
     # 顯示篩選後的結果
     if not filtered_df.empty:
         print("符合條件的房屋交易資料：")
-        return filtered_df[['鄉鎮市區', '土地位置建物門牌', '總價元', '單價元平方公尺']].to_html(
-            escape=False, render_links=True)
+        table_html = filtered_df[['鄉鎮市區', '土地位置建物門牌', '總價元', '單價元平方公尺']].to_html(
+            escape=False, render_links=True, classes='table table-striped')
+
+        bootstrap_link = "https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+        bootstrap_html = f"<link href=\"{bootstrap_link}\" rel=\"stylesheet\">{table_html}"
+
+        # 顯示表格
+        return bootstrap_html
 
     return f"沒有符合價格範圍 {min_price} - {max_price} 佰萬元的交易資料。"
