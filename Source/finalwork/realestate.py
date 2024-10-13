@@ -101,19 +101,27 @@ def query_real_estate(city, min_price, max_price):
     df['土地位置建物門牌'] = df['土地位置建物門牌'].apply(
         lambda x: f'<a href="{generate_google_maps_link(x)}" target="_blank">{x}</a>')
 
+    df['總價'] = df['總價元'].apply(lambda x: f'{x:,.0f}' if pd.notnull(x) else '')
+
     # 篩選價格範圍
     filtered_df = df[(df['總價元'] >= min_price * 1000000) & (df['總價元'] <= max_price * 1000000)]
 
     # 顯示篩選後的結果
     if not filtered_df.empty:
-        print("符合條件的房屋交易資料：")
-        table_html = filtered_df[['鄉鎮市區', '土地位置建物門牌', '總價元', '單價元平方公尺']].to_html(
+        table_html = filtered_df[['鄉鎮市區', '土地位置建物門牌', '總價', '單價元平方公尺']].to_html(
             escape=False, render_links=True, classes='table table-striped')
 
-        bootstrap_link = "https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
-        bootstrap_html = f"<link href=\"{bootstrap_link}\" rel=\"stylesheet\">{table_html}"
+        th_style = """
+<style>
+    th {{
+        text-align: center;
+    }}
+</style>
+"""
+        bs_link = "https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
+        bs_html = f"<link href=\"{bs_link}\" rel=\"stylesheet\">{th_style}{table_html}"
 
         # 顯示表格
-        return bootstrap_html
+        return bs_html
 
     return f"沒有符合價格範圍 {min_price} - {max_price} 佰萬元的交易資料。"
