@@ -111,7 +111,7 @@ def query_real_estate(city, min_price, max_price):
         table_html = filtered_df[['鄉鎮市區', '土地位置建物門牌', '總價', '單價元平方公尺']].to_html(
             escape=False, render_links=True, classes='table table-striped')
 
-        th_style = """
+        th_style = f"""
 <style>
     th {{
         text-align: center;
