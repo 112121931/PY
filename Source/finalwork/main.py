@@ -27,7 +27,7 @@ def index():
 @app.route('/query', methods=['POST'])
 def query():
     '''
-    查詢
+    查詢，處理query的POST訊息
     '''
     option = request.form.get('option')
     location = request.form.get('location')
