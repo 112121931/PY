@@ -5,13 +5,11 @@
 '''
 
 import os
-import zipfile
-import requests
+import re
+import pickle
 import pandas as pd
 import folium
-import re
 from geopy.geocoders import Nominatim
-import pickle
 #from geopy.geocoders import Photon
 
 # 實價登錄資料 URL
@@ -66,21 +64,25 @@ def read_city_data(file_name):
     return None
 
 def clean_address(address):
-    print(address)
+    '''
     # 定義阿拉伯數字、中文數字和全形數字的集合
+    '''
     arabic_digits = '0123456789'
     chinese_digits = '一二三四五六七八九十'
     fullwidth_digits = '０１２３４５６７８９'
 
     # 創建正則表達式來匹配這些數字後跟“弄”或“樓”的部分
-    pattern = f'[{arabic_digits}{chinese_digits}{fullwidth_digits}]+弄|[{arabic_digits}{chinese_digits}{fullwidth_digits}]+號|[{arabic_digits}{chinese_digits}{fullwidth_digits}]+樓'
-    
+    pattern = (
+        f'[{arabic_digits}{chinese_digits}{fullwidth_digits}]+弄|'
+        f'[{arabic_digits}{chinese_digits}{fullwidth_digits}]+號|'
+        f'[{arabic_digits}{chinese_digits}{fullwidth_digits}]+樓'
+    )
+
     # 使用正則表達式進行替換
     cleaned_address = re.sub(pattern, '', address)
     # 去除 '之' (含) 以後的資料
     cleaned_address = re.sub(r'之.*$', '', cleaned_address)
-    
-    print(cleaned_address)
+
     return cleaned_address
 
 def get_coordinates(location):
@@ -88,7 +90,7 @@ def get_coordinates(location):
     查詢座標資訊
     '''
     cache_file = os.path.join(DATA_DIR, 'location_cache.pkl')
-    
+
     # 嘗試從暫存檔中讀取座標資訊
     try:
         with open(cache_file, 'rb') as f:
@@ -103,7 +105,7 @@ def get_coordinates(location):
     # 否則，使用 geolocator 查詢座標
     geolocator = Nominatim(user_agent="realestatemap")
     location_obj = geolocator.geocode(location, timeout=10)
-    
+
     if location_obj:
         coordinates = (location_obj.latitude, location_obj.longitude)
     else:
@@ -115,7 +117,7 @@ def get_coordinates(location):
         pickle.dump(location_cache, f)
 
     return coordinates
-    
+
 def query_real_estate_map(city, min_price, max_price):
     '''
     查詢指定城市的房屋交易資料地圖
@@ -142,28 +144,25 @@ def query_real_estate_map(city, min_price, max_price):
 
     # 顯示篩選後的結果
     if not filtered_df.empty:
-        # 自訂 CSS 樣式讓總價欄位靠右對齊
-        table_html = filtered_df[['鄉鎮市區', '土地位置建物門牌', '總價', '單價元平方公尺']].to_html(
-            escape=False, render_links=True, classes='table table-striped', index=False)
+        m = folium.Map(location=[23.6978, 120.9605], zoom_start=8)
 
-    m = folium.Map(location=[23.6978, 120.9605], zoom_start=8)
+        # 添加標記
+        count = 0
+        for index, row in filtered_df.iterrows():
+            if count >= 10:
+                break
+            location = get_coordinates(clean_address(row['土地位置建物門牌']))
+            if location is not None:
+                folium.Marker(
+                location= location,
+                popup=row['鄉鎮市區'],
+                tooltip=row['土地位置建物門牌']
+                ).add_to(m)
+                count += 1
 
-    # 添加標記
-    count = 0
-    for index, row in filtered_df.iterrows():
-        if count >= 10:
-            break
-        location = get_coordinates(clean_address(row['土地位置建物門牌']))
-        if location != None:
-            folium.Marker(
-            location= location,
-            popup=row['鄉鎮市區'],
-            tooltip=row['土地位置建物門牌']
-            ).add_to(m)
-            count += 1
+        # 使用 branca.element.Element 來獲取 HTML 表示
+        map_html = m.get_root().render()
 
-    # 使用 branca.element.Element 來獲取 HTML 表示
-    map_html = m.get_root().render()
+        return map_html
 
-    return map_html
-
+    return f"沒有符合價格範圍 {min_price} - {max_price} 佰萬元的交易資料。"
