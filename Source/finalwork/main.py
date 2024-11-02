@@ -45,7 +45,7 @@ def query():
         # 這裡可以加入查詢實價登錄的邏輯
         result = query_real_estate(location, min_price, max_price)
     elif option == "news":
-        result = query_news_list(location)
+        return query_news_list(location)
     elif option == "bubbles":
         result = print_bubbles(location, min_price, max_price)
     else:

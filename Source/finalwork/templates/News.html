@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Dynamic Table</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    <table class="table table-striped">
+        <thead>
+            <tr>
+                <th>標題</th>
+                <th>內容</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for row in table_data %}
+            <tr>
+                <td><a href="{{ row.href }}"  target="_blank" rel="stylesheet">{{ row.text }}</a></td>
+                <td>{{ row.content }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <!-- 引入 Bootstrap JS 和依賴 -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
