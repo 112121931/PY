@@ -52,21 +52,6 @@ def query():
     else:
         result = "無效的選項"
 
-    # 在返回的結果中加入列印按鈕和列印功能的JavaScript
-    result_with_print = f"""
-    <div>
-        {result}
-        <div class="text-center mt-4">
-            <button onclick="window.print()" class="btn btn-primary">列印結果</button>
-        </div>
-    </div>
-    <script>
-        function printResult() {{
-            window.print();
-        }}
-    </script>
-    """
-    
     return render_template_string(result)
 
 if __name__ == '__main__':
