@@ -119,18 +119,6 @@ def query_real_estate(city, min_price, max_price):
         bs_link = "https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
         bs_html = f"<link href=\"{bs_link}\" rel=\"stylesheet\">{th_style}{table_html}"
         
-        # 加入列印按鈕和JavaScript
-        bs_html += """
-        <div class="text-center mt-4">
-            <button onclick="window.print()" class="btn btn-primary">列印結果</button>
-        </div>
-        <script>
-            function printResult() {
-                window.print();
-            }
-        </script>
-        """
-
         print("篩選到的結果已生成。")
         return bs_html
 
