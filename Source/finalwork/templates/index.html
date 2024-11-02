@@ -58,6 +58,7 @@
                 <input type="range" min="1" max="100" value="50" class="form-control-range" id="max_price_slider" name="max_price_slider">
             </div>
             <button type="submit" class="btn btn-primary">查詢</button>
+            <button type="button" class="btn btn-secondary ml-2" onclick="printResult()">列印</button>
         </form>
         <iframe id="result_frame" name="result_frame" width="100%" height="600" class="mt-4"></iframe>
     </div>
@@ -95,6 +96,12 @@
                 document.getElementById('result_frame').contentDocument.body.innerHTML = html;
             });
         };
+
+        // 列印結果
+        function printResult() {
+            var iframe = document.getElementById('result_frame');
+            iframe.contentWindow.print();
+        }
     </script>
 </body>
 </html>
