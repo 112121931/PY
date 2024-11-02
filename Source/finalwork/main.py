@@ -7,6 +7,7 @@ import os
 from flask import Flask, render_template, request, render_template_string
 from weather import  get_weather_map
 from realestate import query_real_estate, download_and_extract_data
+from realestatemap import query_real_estate_map
 from news import query_news_list
 from bubbles import print_bubbles
 
@@ -39,11 +40,11 @@ def query():
         download_and_extract_data()
         result = "實價登錄資訊下載完成"
     elif option == 'weather':
-        # 這裡可以加入查詢天氣的邏輯
         result = get_weather_map()
     elif option == 'real_estate':
-        # 這裡可以加入查詢實價登錄的邏輯
         result = query_real_estate(location, min_price, max_price)
+    elif option == 'real_estate_map':
+        result = query_real_estate_map(location, min_price, max_price)
     elif option == "news":
         return query_news_list(location)
     elif option == "bubbles":

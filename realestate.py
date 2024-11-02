@@ -2,6 +2,9 @@ import os
 import zipfile
 import requests
 import pandas as pd
+import folium
+import re
+from geopy.geocoders import Nominatim
 
 # 實價登錄資料 URL
 ZIP_URL = "https://plvr.land.moi.gov.tw//Download?type=zip&fileName=lvr_landcsv.zip"
@@ -137,13 +140,78 @@ def query_real_estate(city, min_price, max_price):
     print(f"沒有符合價格範圍 {min_price} - {max_price} 佰萬元的交易資料。")
     return f"沒有符合價格範圍 {min_price} - {max_price} 佰萬元的交易資料。"
 
-# 主程式測試
-if __name__ == "__main__":
-    print("開始下載並處理資料...")
-    download_and_extract_data()
+def clean_address(address):
+    # 定義阿拉伯數字、中文數字和全形數字的集合
+    arabic_digits = '0123456789'
+    chinese_digits = '一二三四五六七八九十'
+    fullwidth_digits = '０１２３４５６７８９'
 
-    city = '臺北市'
-    min_price = 1000
-    max_price = 5000
-    result = query_real_estate(city, min_price, max_price)
-    print(result)  # 列印查詢結果
+    # 創建正則表達式來匹配這些數字後跟“弄”或“樓”的部分
+    pattern = f'[{arabic_digits}{chinese_digits}{fullwidth_digits}]+弄|[{arabic_digits}{chinese_digits}{fullwidth_digits}]+號|[{arabic_digits}{chinese_digits}{fullwidth_digits}]+樓'
+    
+    # 使用正則表達式進行替換
+    cleaned_address = re.sub(pattern, '', address)
+    return cleaned_address
+
+def generate_link(lat, lon):
+    base_url = "https://www.twipcam.com/api/v1/query-cam-list-by-coordinate"
+    link = f"{base_url}?lat={lat}&lon={lon}"
+    return link
+
+def get_coordinates(location):
+    geolocator = Nominatim(user_agent="geoapiExercises")
+    location = geolocator.geocode(location)
+    if location:
+        return (location.latitude, location.longitude)
+    else:
+        return None
+    
+def query_real_estate_map(city, min_price, max_price):
+    '''
+    查詢指定城市的房屋交易資料地圖
+    '''
+    if city not in city_files:
+        return f"抱歉，目前不支援 {city} 的資料查詢"
+
+    # 讀取資料
+    file_name = city_files[city]
+    df = read_city_data(file_name)
+    if df is None:
+        return f"抱歉，{city} 的 {file_name} 資料檔案不存在，請執行『下載實價登錄資訊』"
+
+    # 將 "土地位置建物門牌" 欄位內容替換為 Google Maps 連結
+    df['土地位置建物門牌'] = df['土地位置建物門牌'].apply(
+        lambda x: f'<a href="{generate_google_maps_link(x)}" target="_blank">{x}</a>')
+
+    # 將總價元轉換為帶千分位的格式
+    df['總價'] = df['總價元'].apply(lambda x: f'{x:,.0f}' if pd.notnull(x) else '')
+
+    # 將單價元平方公尺轉換為帶千分位的格式
+    if '單價元平方公尺' in df.columns:
+        df['單價元平方公尺'] = pd.to_numeric(df['單價元平方公尺'], errors='coerce')
+        df['單價元平方公尺'] = df['單價元平方公尺'].apply(lambda x: f'{x:,.0f}' if pd.notnull(x) else '')
+
+    # 篩選價格範圍
+    filtered_df = df[(df['總價元'] >= min_price * 1000000) & (df['總價元'] <= max_price * 1000000)]
+
+    # 顯示篩選後的結果
+    if not filtered_df.empty:
+        # 自訂 CSS 樣式讓總價欄位靠右對齊
+        table_html = filtered_df[['鄉鎮市區', '土地位置建物門牌', '總價', '單價元平方公尺']].to_html(
+            escape=False, render_links=True, classes='table table-striped', index=False)
+
+    m = folium.Map(location=[23.6978, 120.9605], zoom_start=8)
+
+    # 添加標記
+    for 土地位置建物門牌 in filtered_df.items():
+        folium.Marker(
+        location=get_coordinates(土地位置建物門牌),
+        popup=city,
+        tooltip=''
+    ).add_to(m)
+
+    # 使用 branca.element.Element 來獲取 HTML 表示
+    map_html = m.get_root().render()
+
+    return map_html
+
