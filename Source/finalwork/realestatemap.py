@@ -149,7 +149,7 @@ def query_real_estate_map(city, min_price, max_price):
         # 添加標記
         count = 0
         for index, row in filtered_df.iterrows():
-            if count >= 10:
+            if count >= 100:
                 break
             location = get_coordinates(clean_address(row['土地位置建物門牌']))
             if location is not None:
