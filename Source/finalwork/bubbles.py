@@ -81,15 +81,15 @@ def plot_bubble_chart(df, city):
 
 
     # 保存圖表到記憶體
-    #img = io.BytesIO()
-    #plt.savefig(img, format='png')
-    #plt.close()
-    #img.seek(0)
+    img = io.BytesIO()
+    plt.savefig(img, format='png')
+    plt.close()
+    img.seek(0)
 
     # 圖片轉換為 base64 編碼的字符串
-    #img_base64 = base64.b64encode(img.getvalue()).decode('utf-8')
+    img_base64 = base64.b64encode(img.getvalue()).decode('utf-8')
 
-    #return img_base64
+    return img_base64
 
 def print_bubbles(city, min_price, max_price):
     '''
