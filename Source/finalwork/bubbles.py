@@ -50,7 +50,7 @@ def plot_bubble_chart(df, city):
     df['泡泡大小'] = df['鄉鎮市區'].apply(lambda x: area_count.get(x, 0))
 
     # 繪製泡泡圖
-    plt.figure(figsize=(12, 8))
+    plt.figure(figsize=(10, 7))
 
     unique_areas = df['鄉鎮市區'].unique()
     colors = plt.cm.tab20  # 使用 'tab20' 顏色映射
@@ -71,9 +71,6 @@ def plot_bubble_chart(df, city):
     plt.xlabel('建物移轉總面積 (平方公尺)', fontproperties=zh_font)
     plt.ylabel('總價 (元)', fontproperties=zh_font)
     plt.legend(loc='upper right', bbox_to_anchor=(1.2, 1), title="區域", title_fontproperties=zh_font, prop=zh_font)
-    # 將寬度和高度縮小為原來的80%
-    plt.figure(figsize=(12 * 0.8, 8 * 0.8))
-
 
     # 保存圖表到記憶體
     img = io.BytesIO()
