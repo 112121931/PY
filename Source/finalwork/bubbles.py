@@ -68,10 +68,14 @@ def plot_bubble_chart(df, city):
 
     return img_base64
 
-def print_bubbles(city, df):
+def print_bubbles(city, df, min_price=None, max_price=None):
     '''
     使用資料繪製泡泡圖
     '''
+    # 可以根據 min_price 和 max_price 過濾資料
+    if min_price is not None and max_price is not None:
+        df = df[(df['總價元'] >= min_price * 10000) & (df['總價元'] <= max_price * 10000)]
+
     if not df.empty:
         img_base64 = plot_bubble_chart(df, city)
         img_tag = f'<img src="data:image/png;base64,{img_base64}" alt="Bubble Chart">'
