@@ -1,7 +1,5 @@
-'''
 # 作者: L
 # 描述: 繪制泡泡圖
-'''
 import base64
 import io
 import os
@@ -10,7 +8,7 @@ from matplotlib import patches
 from matplotlib import rcParams
 import matplotlib.font_manager as fm
 import matplotlib
-from realestate import read_city_data, city_files
+from realestate import query_real_estate, city_files  # 導入 realestate.py 中的查詢函數和 city_files 字典
 matplotlib.use('Agg')  # 避免在無視窗環境中出現錯誤
 
 # 設定中文字體
@@ -18,25 +16,6 @@ rcParams['axes.unicode_minus'] = False  # 解決負號顯示問題
 # 設定字體路徑
 font_path = os.path.abspath('fonts/NotoSansCJKtc-Black.otf')
 zh_font = fm.FontProperties(fname=font_path)
-
-def query_real_estate(city, min_price, max_price):
-    '''
-    讀取實價登錄資料
-    '''
-    if city not in city_files:
-        print(f"抱歉，目前不支援 {city} 的資料查詢")
-        return None
-
-    # 讀取資料
-    file_name = city_files[city]
-    df = read_city_data(file_name)
-    if df is None:
-        return None
-
-    # 篩選價格範圍
-    filtered_df = df[(df['總價元'] >= min_price * 10000) & (df['總價元'] <= max_price * 10000)]
-
-    return filtered_df
 
 def plot_bubble_chart(df, city):
     '''
@@ -50,7 +29,7 @@ def plot_bubble_chart(df, city):
     df['泡泡大小'] = df['鄉鎮市區'].apply(lambda x: area_count.get(x, 0))
 
     # 繪製泡泡圖
-    plt.figure(figsize=(10, 10))
+    plt.figure(figsize=(11, 7))  # 寬,高
 
     unique_areas = df['鄉鎮市區'].unique()
     colors = plt.cm.tab20  # 使用 'tab20' 顏色映射
@@ -87,7 +66,7 @@ def print_bubbles(city, min_price, max_price):
     '''
     查詢實價登錄資料與繪圖
     '''
-    filtered_df = query_real_estate(city, min_price, max_price)
+    filtered_df = query_real_estate(city, min_price, max_price)  # 使用 realestate.py 的查詢函數
     if filtered_df is not None and not filtered_df.empty:
         img_base64 = plot_bubble_chart(filtered_df, city)
         img_tag = f'<img src="data:image/png;base64,{img_base64}" alt="Bubble Chart">'
