@@ -50,7 +50,7 @@ def plot_bubble_chart(df, city):
     df['泡泡大小'] = df['鄉鎮市區'].apply(lambda x: area_count.get(x, 0))
 
     # 繪製泡泡圖
-    plt.figure(figsize=(10, 7))
+    plt.figure(figsize=(10, 10))
 
     unique_areas = df['鄉鎮市區'].unique()
     colors = plt.cm.tab20  # 使用 'tab20' 顏色映射
