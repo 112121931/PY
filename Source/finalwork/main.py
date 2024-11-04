@@ -13,7 +13,7 @@ from bubbles import print_bubbles
 
 # 設置工作目錄
 if os.getcwd().find('finalwork') == -1 :
-    os.chdir(f'{os.getcwd()}\\Source\\finalwork')
+    os.chdir(f'{os.getcwd()}/Source/finalwork')
     print(os.getcwd())  # 查看當前工作目錄
 
 app = Flask(__name__)

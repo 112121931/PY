@@ -85,7 +85,7 @@ def query_news_list(location):
     # 提取標題和鏈接
     #table_data = [{'text' : headline.get_text(strip=True), 'href' : headline.attrs['href']} for headline in headlines[:10]]
     table_data = [{'text': headline.get_text(strip=True), 'href': headline.attrs['href'], 'content': display_news_content(headline.attrs['href'])} for headline in headlines[:10]]
-    return render_template('news.html', table_data=table_data)
+    return render_template('News.html', table_data=table_data)
     '''
     # 使用 pandas 生成 HTML 表格
     df = pd.DataFrame(data, columns=['標題', '鏈接'])
