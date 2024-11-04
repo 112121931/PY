@@ -13,12 +13,11 @@ import matplotlib
 from realestate import read_city_data, city_files
 matplotlib.use('Agg')  # 避免在無視窗環境中出現錯誤
 
-# 設定字體路徑
-#font_path = os.path.abspath('fonts/NotoSansCJKtc-Black.otf')
-#zh_font = fm.FontProperties(fname=font_path)
-
 # 設定中文字體
-#rcParams['axes.unicode_minus'] = False  # 解決負號顯示問題
+rcParams['axes.unicode_minus'] = False  # 解決負號顯示問題
+# 設定字體路徑
+font_path = os.path.abspath('fonts/NotoSansCJKtc-Black.otf')
+zh_font = fm.FontProperties(fname=font_path)
 
 def query_real_estate(city, min_price, max_price):
     '''
@@ -68,14 +67,10 @@ def plot_bubble_chart(df, city):
             label=area
         )
 
-    #plt.title(f"{city} 各區域房屋交易數據", fontproperties=zh_font)
-    #plt.xlabel('建物移轉總面積 (平方公尺)', fontproperties=zh_font)
-    #plt.ylabel('總價 (元)', fontproperties=zh_font)
-    #plt.legend(loc='upper right', bbox_to_anchor=(1.2, 1), title="區域", title_fontproperties=zh_font, prop=zh_font)
-    plt.title(f"{city} 各區域房屋交易數據")
-    plt.xlabel('建物移轉總面積 (平方公尺)')
-    plt.ylabel('總價 (元)')
-    plt.legend(loc='upper right', bbox_to_anchor=(1.2, 1), title="區域")
+    plt.title(f"{city} 各區域房屋交易數據", fontproperties=zh_font)
+    plt.xlabel('建物移轉總面積 (平方公尺)', fontproperties=zh_font)
+    plt.ylabel('總價 (元)', fontproperties=zh_font)
+    plt.legend(loc='upper right', bbox_to_anchor=(1.2, 1), title="區域", title_fontproperties=zh_font, prop=zh_font)
     # 將寬度和高度縮小為原來的80%
     plt.figure(figsize=(12 * 0.8, 8 * 0.8))
 
