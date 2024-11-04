@@ -3,6 +3,7 @@
 import base64
 import io
 import os
+import pandas as pd
 import matplotlib.pyplot as plt
 from matplotlib import patches
 from matplotlib import rcParams
@@ -67,7 +68,7 @@ def print_bubbles(city, min_price, max_price):
     查詢實價登錄資料與繪圖
     '''
     filtered_df = query_real_estate(city, min_price, max_price)  # 使用 realestate.py 的查詢函數
-    if filtered_df is not None and not filtered_df.empty:
+    if isinstance(filtered_df, pd.DataFrame) and not filtered_df.empty:
         img_base64 = plot_bubble_chart(filtered_df, city)
         img_tag = f'<img src="data:image/png;base64,{img_base64}" alt="Bubble Chart">'
         return img_tag
