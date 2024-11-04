@@ -72,6 +72,10 @@ def print_bubbles(city, df, min_price=None, max_price=None):
     '''
     使用資料繪製泡泡圖
     '''
+    # 檢查 df 是否為 DataFrame
+    if not isinstance(df, pd.DataFrame):
+        raise ValueError("第二個參數必須是 pandas DataFrame。")
+
     # 可以根據 min_price 和 max_price 過濾資料
     if min_price is not None and max_price is not None:
         df = df[(df['總價元'] >= min_price * 10000) & (df['總價元'] <= max_price * 10000)]
