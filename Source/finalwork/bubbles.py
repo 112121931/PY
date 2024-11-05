@@ -1,13 +1,15 @@
 # 作者: L
 # 描述: 繪制泡泡圖
 import base64
-import io
+import io  # 引入 io 模組以使用 BytesIO
 import os
 import pandas as pd
 import matplotlib.pyplot as plt
 from matplotlib import rcParams
 import matplotlib.font_manager as fm
 import matplotlib
+from realestate import query_real_estate
+
 
 matplotlib.use('Agg')  # 避免在無視窗環境中出現錯誤
 
@@ -68,16 +70,30 @@ def plot_bubble_chart(df, city):
 
     return img_base64
 
-def print_bubbles(location, min_price, max_price, df):
-    '''
-    使用資料繪製泡泡圖
-    '''
-    if not isinstance(df, pd.DataFrame):
-        raise ValueError("第二個參數必須是 pandas DataFrame。")
-    
-    if not df.empty:
-        img_base64 = plot_bubble_chart(df, location)
-        img_tag = f'<img src="data:image/png;base64,{img_base64}" alt="Bubble Chart">'
-        return img_tag
 
-    return "沒有可用的交易資料。"
+def print_bubbles(location, min_price, max_price):
+    # 直接在此處獲取資料，生成 df
+    df = query_real_estate(location, min_price, max_price)
+    
+    if not isinstance(df, pd.DataFrame):
+        raise ValueError("查詢結果不是 DataFrame。")
+    
+    if df.empty:
+        return "沒有符合條件的資料。"
+
+    # 設定圖表
+    plt.figure(figsize=(10, 6))
+    plt.scatter(df['單價元平方公尺'], df['坪數'], s=df['總價元']/1e4, alpha=0.5)
+    plt.xlabel('單價 (元/平方公尺)')
+    plt.ylabel('坪數')
+    plt.title(f"{location} - 單價 vs 坪數")
+
+    # 將圖表轉為 base64 字串
+    buffer = io.BytesIO() 
+    plt.savefig(buffer, format="png")
+    buffer.seek(0)
+    image_base64 = base64.b64encode(buffer.getvalue()).decode()
+    plt.close()
+
+    # 將圖片內嵌至 HTML
+    return f"<img src='data:image/png;base64,{image_base64}'/>"
