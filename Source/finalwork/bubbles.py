@@ -1,73 +1,59 @@
 # 作者: L
 # 描述: 繪制泡泡圖
-import base64
-import io
-import os
-import pandas as pd
+# bubbles.py
 import matplotlib.pyplot as plt
-from matplotlib import rcParams
-import matplotlib.font_manager as fm
-import matplotlib
-from realestate import query_real_estate  # 引入資料查詢函數
+import matplotlib.patches as patches
 
-matplotlib.use('Agg')
-
-# 設定中文字體
-rcParams['axes.unicode_minus'] = False
-font_path = os.path.abspath('fonts/NotoSansCJKtc-Black.otf')
-zh_font = fm.FontProperties(fname=font_path)
-
-def calculate_values(df):
-    """計算單價元平方公尺，並移除無效數據"""
-    df['單價元平方公尺'] = df['總價元'] / df['建物移轉總面積平方公尺']
-    df = df.dropna(subset=['總價元', '建物移轉總面積平方公尺', '鄉鎮市區'])
-    return df
-
+# 繪製泡泡圖的函數
 def plot_bubble_chart(df, city):
-    """繪製泡泡圖"""
-    df = calculate_values(df)  # 使用計算後的值
+    # 清理數據：移除缺失或無效的數據
+    df = df.dropna(subset=['總價元', '建物移轉總面積平方公尺', '鄉鎮市區'])
+    
+    # 按區域分組，計算每個區域的交易總數
     area_count = df['鄉鎮市區'].value_counts()
+    
+    # 將每個房屋的區域交易總數作為泡泡大小
     df['泡泡大小'] = df['鄉鎮市區'].apply(lambda x: area_count.get(x, 0))
-
-    plt.figure(figsize=(11, 7))
+    
+    # 繪製泡泡圖
+    plt.figure(figsize=(12, 8))
+    
+    # 使用不同顏色繪製每個區域的泡泡
     unique_areas = df['鄉鎮市區'].unique()
-    colors = plt.cm.tab20
-    color_map = {area: colors(i / len(unique_areas)) for i, area in enumerate(unique_areas)}
-
+    colors = plt.cm.get_cmap('tab20', len(unique_areas))
+    color_map = {area: colors(i) for i, area in enumerate(unique_areas)}
+    
     for area in unique_areas:
         area_data = df[df['鄉鎮市區'] == area]
         plt.scatter(
             area_data['建物移轉總面積平方公尺'],
-            area_data['單價元平方公尺'],
+            area_data['總價元'],
             s=area_data['泡泡大小'] * 10,
             alpha=0.5,
             color=color_map[area],
             label=area
         )
-
-    plt.title(f"{city} 各區域房屋交易單價", fontproperties=zh_font)
-    plt.xlabel('建物移轉總面積 (平方公尺)', fontproperties=zh_font)
-    plt.ylabel('單價 (元/平方公尺)', fontproperties=zh_font)
-    plt.legend(loc='upper right', bbox_to_anchor=(1.2, 1), title="區域", title_fontproperties=zh_font, prop=zh_font)
-
-    img = io.BytesIO()
-    plt.savefig(img, format='png')
-    plt.close()
-    img.seek(0)
-    img_base64 = base64.b64encode(img.getvalue()).decode('utf-8')
-    return img_base64
-
-def print_bubbles(location, min_price, max_price):
-    """查詢並生成泡泡圖"""
-    df = query_real_estate(location, min_price, max_price)
     
-    if not isinstance(df, pd.DataFrame):
-        print("查詢結果不是 DataFrame。")  # 除錯訊息
-        raise ValueError("查詢結果不是 DataFrame。")
-    
-    if df.empty:
-        print("查詢結果為空")  # 除錯訊息
-        return "沒有符合條件的資料。"
+    plt.title(f"{city} 各區域房屋交易數據")
+    plt.xlabel('建物移轉總面積 (平方公尺)')
+    plt.ylabel('總價 (元)')
+    plt.legend(loc='upper right', bbox_to_anchor=(1.2, 1), title="區域")
+    plt.tight_layout()
+    plt.show()
 
-    image_base64 = plot_bubble_chart(df, location)
-    return f"<img src='data:image/png;base64,{image_base64}'/>"
+    # 繪製顏色比照圖
+    plot_color_legend(color_map)
+
+# 繪製顏色比照圖
+def plot_color_legend(color_map):
+    fig, ax = plt.subplots(figsize=(12, 1))
+    ax.set_xlim(0, 1)
+    ax.set_ylim(0, 1)
+    ax.axis('off')
+    
+    for i, (area, color) in enumerate(color_map.items()):
+        rect = patches.Rectangle((0.1 * i, 0.5), 0.1, 0.4, linewidth=1, edgecolor='black', facecolor=color)
+        ax.add_patch(rect)
+        plt.text(0.1 * i + 0.05, 0.5, area, va='center', ha='center', fontsize=10)
+    
+    plt.show()
