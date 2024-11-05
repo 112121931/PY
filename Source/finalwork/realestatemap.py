@@ -10,24 +10,11 @@ import pickle
 import pandas as pd
 import folium
 from geopy.geocoders import Nominatim
-from cities import get_city_files
+from cities import get_city_files, getLocationByCity
+from realestate import read_city_data
 
 DATA_DIR = "real_estate_data"
 ZIP_FILE_PATH = os.path.join(DATA_DIR, "lvr_landcsv.zip")
-
-def read_city_data(file_name):
-    '''
-    # 讀取指定城市的 CSV 資料
-    '''
-    file_path = os.path.join(DATA_DIR, file_name)
-    if os.path.exists(file_path):
-        df = pd.read_csv(file_path, encoding='utf-8')
-        if df['總價元'].dtype not in {'int64', 'float64'}:
-            df['總價元'] = pd.to_numeric(df['總價元'], errors='coerce')
-        return df
-
-    print(f"找不到 {file_name} 的資料")
-    return None
 
 def clean_address(address):
     '''
@@ -110,7 +97,7 @@ def query_real_estate_map(city, min_price, max_price):
 
     # 顯示篩選後的結果
     if not filtered_df.empty:
-        m = folium.Map(location=[23.6978, 120.9605], zoom_start=8)
+        m = folium.Map(location=getLocationByCity(city), zoom_start=12)
 
         # 添加標記
         count = 0
@@ -122,7 +109,7 @@ def query_real_estate_map(city, min_price, max_price):
                 folium.Marker(
                 location= location,
                 popup=row['鄉鎮市區'],
-                tooltip=row['土地位置建物門牌']
+                tooltip=f"門牌:{row['土地位置建物門牌']}, 金額 :{row['總價元']}"
                 ).add_to(m)
                 count += 1
 

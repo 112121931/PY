@@ -33,6 +33,12 @@ def get_cities():
     '''
     return cities_data
 
+def getLocationByCity(city_name):
+    '''
+    依城市名取得座標
+    '''
+    return cities_data.get(city_name, None)
+
 # 台灣各主要城市名稱
 city_names = [
     '臺北市', '新北市', '桃園市', '臺中市', '臺南市', '高雄市',
