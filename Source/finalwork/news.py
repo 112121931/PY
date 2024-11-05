@@ -5,8 +5,7 @@
 
 import requests
 from bs4 import BeautifulSoup
-import pandas as pd
-from flask import Flask, render_template
+from flask import render_template
 
 # 定義地點選項
 locations = {
@@ -38,10 +37,13 @@ def display_news_content(url):
     '''
     取得新閒內容
     '''
-    response = requests.get(url)
+    response = requests.get(url, timeout=10)
     soup = BeautifulSoup(response.text, 'html.parser')
     paragraphs = soup.find_all('p')
-    content = ' '.join([p.text.strip() for p in paragraphs if '爆' not in p.text and '為達最佳瀏覽效果' not in p.text])
+    content = ' '.join([
+        p.text.strip() for p in paragraphs
+        if '爆' not in p.text and '為達最佳瀏覽效果' not in p.text
+    ])
     return content
 
 # 更新新聞標題選項
@@ -56,6 +58,11 @@ def query_news_list(location):
     headlines = soup.find_all('a', class_='tit')
 
     # 提取標題和鏈接
-    #table_data = [{'text' : headline.get_text(strip=True), 'href' : headline.attrs['href']} for headline in headlines[:10]]
-    table_data = [{'text': headline.get_text(strip=True), 'href': headline.attrs['href'], 'content': display_news_content(headline.attrs['href'])} for headline in headlines[:10]]
+    table_data = [
+        {
+            'text': headline.get_text(strip=True),
+            'href': headline.attrs['href'],
+            'content': display_news_content(headline.attrs['href'])
+        }
+        for headline in headlines[:10]]
     return render_template('News.html', table_data=table_data)
