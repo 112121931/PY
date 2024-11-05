@@ -8,7 +8,7 @@ import os
 import zipfile
 import requests
 import pandas as pd
-from .cities import get_city_files
+from cities import get_city_files
 
 # 實價登錄資料 URL
 ZIP_URL = "https://plvr.land.moi.gov.tw//Download?type=zip&fileName=lvr_landcsv.zip"

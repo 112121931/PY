@@ -10,7 +10,7 @@ import pickle
 import pandas as pd
 import folium
 from geopy.geocoders import Nominatim
-from .cities import get_city_files
+from cities import get_city_files
 
 DATA_DIR = "real_estate_data"
 ZIP_FILE_PATH = os.path.join(DATA_DIR, "lvr_landcsv.zip")

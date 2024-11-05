@@ -5,7 +5,7 @@
 
 import requests
 import folium
-from .cities import get_cities
+from cities import get_cities
 
 API_URL = "https://opendata.cwa.gov.tw/api/v1/rest/datastore/F-C0032-001"
 API_KEY = "CWA-D5B056EA-33C1-4099-9FE8-C6282F14A951"

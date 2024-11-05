@@ -8,7 +8,8 @@ import matplotlib.pyplot as plt
 import matplotlib.patches as patches
 from matplotlib import rcParams
 import matplotlib.font_manager as fm
-from realestate import read_city_data, city_files
+from realestate import read_city_data
+from cities import get_city_files
 
 # 設定字體路徑
 font_path = os.path.abspath('fonts/NotoSansCJKtc-Black.otf')
@@ -19,12 +20,12 @@ rcParams['font.sans-serif'] = ['Source Han Serif TW VF']  # 確保安裝了相�
 rcParams['axes.unicode_minus'] = False  # 解決負號顯示問題
 
 def query_real_estate(city, min_price, max_price):
-    if city not in city_files:
+    if city not in get_city_files():
         print(f"抱歉，目前不支援 {city} 的資料查詢")
         return
 
     # 讀取資料
-    file_name = city_files[city]
+    file_name = get_city_files()[city]
     df = read_city_data(file_name)
     if df is None:
         return
