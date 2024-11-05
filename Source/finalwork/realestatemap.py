@@ -79,18 +79,12 @@ def query_real_estate_map(city, min_price, max_price):
         return f"抱歉，目前不支援 {city} 的資料查詢"
 
     # 讀取資料
-    file_name = get_city_files()[city]
-    df = read_city_data(file_name)
+    df = read_city_data(get_city_files()[city])
     if df is None:
-        return f"抱歉，{city} 的 {file_name} 資料檔案不存在，請執行『下載實價登錄資訊』"
+        return f"抱歉，{city} 的 {get_city_files()[city]} 資料檔案不存在，請執行『下載實價登錄資訊』"
 
     # 將總價元轉換為帶千分位的格式
     df['總價'] = df['總價元'].apply(lambda x: f'{x:,.0f}' if pd.notnull(x) else '')
-
-    # 將單價元平方公尺轉換為帶千分位的格式
-    if '單價元平方公尺' in df.columns:
-        df['單價元平方公尺'] = pd.to_numeric(df['單價元平方公尺'], errors='coerce')
-        df['單價元平方公尺'] = df['單價元平方公尺'].apply(lambda x: f'{x:,.0f}' if pd.notnull(x) else '')
 
     # 篩選價格範圍
     filtered_df = df[(df['總價元'] >= min_price * 1000000) & (df['總價元'] <= max_price * 1000000)]
@@ -109,7 +103,7 @@ def query_real_estate_map(city, min_price, max_price):
                 folium.Marker(
                 location= location,
                 popup=row['鄉鎮市區'],
-                tooltip=f"門牌:{row['土地位置建物門牌']}, 金額 :{row['總價元']}"
+                tooltip=f"門牌:{row['土地位置建物門牌']}, 金額 :{int(row['總價元']):,}"
                 ).add_to(m)
                 count += 1
 
