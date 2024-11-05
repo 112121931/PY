@@ -38,7 +38,7 @@ def query_real_estate(city, min_price, max_price):
 # 繪製泡泡圖的函數
 def plot_bubble_chart(df, city):
     # 清理數據：移除缺失或無效的數據
-    df = df.dropna(subset=['單價元平方公尺', '建物移轉總面積平方公尺', '鄉鎮市區'])
+    df = df.dropna(subset=['總價元', '建物移轉總面積平方公尺', '鄉鎮市區', '單價元平方公尺'])
 
     # 確保有有效的數據
     if df.empty:
@@ -47,7 +47,7 @@ def plot_bubble_chart(df, city):
 
     # 按區域分組，計算每個區域的交易總數
     area_count = df['鄉鎮市區'].value_counts()
-    
+
     # 將每個房屋的區域交易總數作為泡泡大小
     df['泡泡大小'] = df['鄉鎮市區'].apply(lambda x: area_count.get(x, 0))
 
@@ -62,11 +62,11 @@ def plot_bubble_chart(df, city):
     for area in unique_areas:
         area_data = df[df['鄉鎮市區'] == area]
         plt.scatter(
-            area_data['建物移轉總面積平方公尺'],  # X 軸：建物面積
-            area_data['單價元平方公尺'],         # Y 軸：單價
-            s=area_data['泡泡大小'] * 10,     # 泡泡大小：區域交易總數
+            area_data['建物移轉總面積平方公尺'],  # X 軸：建物移轉總面積
+            area_data['單價元平方公尺'],          # Y 軸：單價
+            s=area_data['泡泡大小'] * 10,         # 泡泡大小：區域交易總數
             alpha=0.5,
-            color=color_map[area],         # 區域顏色
+            color=color_map[area],                # 區域顏色
             label=area
         )
 
@@ -91,23 +91,6 @@ def plot_bubble_chart(df, city):
     img_base64 = base64.b64encode(img.getvalue()).decode('utf-8')
 
     return img_base64
-
-# 繪製顏色比照圖
-def plot_color_legend(color_map):
-    """
-    繪製顏色比照圖
-    """
-    fig, ax = plt.subplots(figsize=(12, 1))
-    ax.set_xlim(0, 1)
-    ax.set_ylim(0, 1)
-    ax.axis('off')
-
-    for i, (area, color) in enumerate(color_map.items()):
-        rect = patches.Rectangle((0.1 * i, 0.5), 0.1, 0.4, linewidth=1, edgecolor='black', facecolor=color)
-        ax.add_patch(rect)
-        plt.text(0.1 * i + 0.05, 0.5, area, va='center', ha='center', fontsize=10, fontproperties=zh_font)
-
-    plt.show()
 
 def print_bubbles(city, min_price, max_price):    
     filtered_df = query_real_estate(city, min_price, max_price)
