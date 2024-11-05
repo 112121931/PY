@@ -33,7 +33,7 @@ def get_cities():
     '''
     return cities_data
 
-def getLocationByCity(city_name):
+def get_location_by_city(city_name):
     '''
     依城市名取得座標
     '''

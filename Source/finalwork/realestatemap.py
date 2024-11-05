@@ -10,7 +10,7 @@ import pickle
 import pandas as pd
 import folium
 from geopy.geocoders import Nominatim
-from cities import get_city_files, getLocationByCity
+from cities import get_city_files, get_location_by_city
 from realestate import read_city_data
 
 DATA_DIR = "real_estate_data"
@@ -91,7 +91,7 @@ def query_real_estate_map(city, min_price, max_price):
 
     # 顯示篩選後的結果
     if not filtered_df.empty:
-        m = folium.Map(location=getLocationByCity(city), zoom_start=12)
+        m = folium.Map(location=get_location_by_city(city), zoom_start=12)
 
         # 添加標記
         count = 0
@@ -102,8 +102,8 @@ def query_real_estate_map(city, min_price, max_price):
             if location is not None:
                 folium.Marker(
                 location= location,
-                popup=row['鄉鎮市區'],
-                tooltip=f"門牌:{row['土地位置建物門牌']}, 金額 :{int(row['總價元']):,}"
+                popup=f"門牌:{row['鄉鎮市區']}{row['土地位置建物門牌']}, 金額 :{int(row['總價元']):,}",
+                tooltip=f"門牌:{row['鄉鎮市區']}{row['土地位置建物門牌']}, 金額 :{int(row['總價元']):,}"
                 ).add_to(m)
                 count += 1
 
