@@ -1,37 +1,19 @@
+'''
+# 作者: 112121931 林智鴻
+# 描述: 於不動產成交案件，實際資料供應系統下載實價登錄資訊檔案
+#       查詢實價登入資訊與結合google map，查詢地點
+'''
+
 import os
 import zipfile
 import requests
 import pandas as pd
+from .cities import get_city_files
 
 # 實價登錄資料 URL
 ZIP_URL = "https://plvr.land.moi.gov.tw//Download?type=zip&fileName=lvr_landcsv.zip"
 DATA_DIR = "real_estate_data"
 ZIP_FILE_PATH = os.path.join(DATA_DIR, "lvr_landcsv.zip")
-
-# 台灣各主要城市名稱與檔案對應
-city_files = {
-    '臺北市': 'a_lvr_land_a.csv',
-    '新北市': 'f_lvr_land_a.csv',
-    '桃園市': 'h_lvr_land_a.csv',
-    '臺中市': 'b_lvr_land_a.csv',
-    '臺南市': 'd_lvr_land_a.csv',
-    '高雄市': 'e_lvr_land_a.csv',
-    '基隆市': 'c_lvr_land_a.csv',
-    '宜蘭縣': 'g_lvr_land_a.csv',
-    '嘉義市': 'i_lvr_land_a.csv',
-    '新竹縣': 'j_lvr_land_a.csv',
-    '苗栗縣': 'k_lvr_land_a.csv',
-    '南投縣': 'm_lvr_land_a.csv',
-    '彰化縣': 'n_lvr_land_a.csv',
-    '新竹市': 'o_lvr_land_a.csv',
-    '雲林縣': 'p_lvr_land_a.csv',
-    '嘉義縣': 'q_lvr_land_a.csv',
-    '屏東縣': 't_lvr_land_a.csv',
-    '花蓮縣': 'u_lvr_land_a.csv',
-    '台東縣': 'v_lvr_land_a.csv',
-    '金門縣': 'w_lvr_land_a.csv',
-    '澎湖縣': 'x_lvr_land_a.csv',
-}
 
 def download_and_extract_data():
     '''
@@ -76,11 +58,11 @@ def query_real_estate(city, min_price, max_price):
     '''
     查詢指定城市的房屋交易資料
     '''
-    if city not in city_files:
+    if city not in get_city_files():
         return f"抱歉，目前不支援 {city} 的資料查詢"
 
     # 讀取資料
-    file_name = city_files[city]
+    file_name = get_city_files()[city]
     df = read_city_data(file_name)
     if df is None:
         return f"抱歉，{city} 的 {file_name} 資料檔案不存在，請執行『下載實價登錄資訊』"
@@ -118,20 +100,9 @@ def query_real_estate(city, min_price, max_price):
         # 加入 Bootstrap 樣式與列印按鈕
         bs_link = "https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
         bs_html = f"<link href=\"{bs_link}\" rel=\"stylesheet\">{th_style}{table_html}"
-        
+
         print("篩選到的結果已生成。")
         return bs_html
 
     print(f"沒有符合價格範圍 {min_price} - {max_price} 佰萬元的交易資料。")
     return f"沒有符合價格範圍 {min_price} - {max_price} 佰萬元的交易資料。"
-
-# 主程式測試
-if __name__ == "__main__":
-    print("開始下載並處理資料...")
-    download_and_extract_data()
-
-    city = '臺北市'
-    min_price = 1000
-    max_price = 5000
-    result = query_real_estate(city, min_price, max_price)
-    print(result)  # 列印查詢結果
