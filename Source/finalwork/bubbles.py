@@ -29,10 +29,16 @@ def query_real_estate(city, min_price, max_price):
     # 讀取城市資料
     df = read_city_data(city)
     
+    # 檢查是否成功讀取資料
+    if df is None:
+        print(f"無法讀取 {city} 的資料，請確認資料是否存在")
+        return None
+    
     # 篩選價格範圍
     filtered_df = df[(df['總價元'] >= min_price * 10000) & (df['總價元'] <= max_price * 10000)]
     
     return filtered_df
+
 
 # 繪製泡泡圖的函數
 def plot_bubble_chart(df, city):
@@ -95,7 +101,11 @@ def print_bubbles(city, min_price, max_price):
     '''
     filtered_df = query_real_estate(city, min_price, max_price)
     
+    # 確認 df 不為空
     if filtered_df is not None and not filtered_df.empty:
         img_base64 = plot_bubble_chart(filtered_df, city)
         img_tag = f'<img src="data:image/png;base64,{img_base64}" alt="Bubble Chart">'
         return img_tag
+    else:
+        return "查無符合條件的資料或資料無法讀取"
+
