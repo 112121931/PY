@@ -15,8 +15,9 @@ from matplotlib import font_manager, rcParams
 import matplotlib as mpl
 import matplotlib.font_manager as fm
 from realestate import read_city_data, city_files
-
-zh_font = fm.FontProperties(fname='C:\\Windows\\Fonts\\NotoSansCJKtc-Black.otf')
+# 設定字體路徑
+font_path = os.path.abspath('fonts/NotoSansCJKtc-Black.otf')
+zh_font = fm.FontProperties(fname=font_path)
 
 # 設定中文字體
 rcParams['font.sans-serif'] = ['Source Han Serif TW VF']  # 確保安裝了相應的字體
