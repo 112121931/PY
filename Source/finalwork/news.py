@@ -5,7 +5,6 @@
 
 import requests
 from bs4 import BeautifulSoup
-import ipywidgets as widgets
 import pandas as pd
 from flask import Flask, render_template
 
@@ -35,32 +34,6 @@ locations = {
     '連江縣': 'https://news.ltn.com.tw/list/breakingnews/Matsu'
 }
 
-# 創建地點選擇下拉選單
-location_dropdown = widgets.Dropdown(
-    options=locations,
-    description='選擇地點:',
-    disabled=False,
-)
-
-# 創建新聞標題下拉選單
-news_dropdown = widgets.Dropdown(
-    options=[],
-    description='新聞標題:',
-    disabled=False,
-)
-
-# 顯示新聞內容
-def display_news_content(url):
-    '''
-    查詢新聞內容
-    '''
-    response = requests.get(url, timeout=10)
-    soup = BeautifulSoup(response.text, 'html.parser')
-    paragraphs = soup.find_all('p')
-    content = ' '.join([p.text.strip() for p in paragraphs if '爆' not in p.text
-                        and '為達最佳瀏覽效果' not in p.text])
-    return f"<h2>{news_dropdown.label}</h2><p>{content}</p>"
-
 def display_news_content(url):
     '''
     取得新閒內容
@@ -86,14 +59,3 @@ def query_news_list(location):
     #table_data = [{'text' : headline.get_text(strip=True), 'href' : headline.attrs['href']} for headline in headlines[:10]]
     table_data = [{'text': headline.get_text(strip=True), 'href': headline.attrs['href'], 'content': display_news_content(headline.attrs['href'])} for headline in headlines[:10]]
     return render_template('News.html', table_data=table_data)
-    '''
-    # 使用 pandas 生成 HTML 表格
-    df = pd.DataFrame(data, columns=['標題', '鏈接'])
-    table_html = df.to_html(escape=False, render_links=True, classes='table table-striped')
-
-    bootstrap_link = "https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css"
-    bootstrap_html = f"<link href=\"{bootstrap_link}\" rel=\"stylesheet\">{table_html}"
-
-    # 顯示表格
-    return bootstrap_html
-    '''
