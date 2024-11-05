@@ -10,44 +10,10 @@ import pickle
 import pandas as pd
 import folium
 from geopy.geocoders import Nominatim
-#from geopy.geocoders import Photon
+from .cities import get_city_files
 
-# 實價登錄資料 URL
-ZIP_URL = "https://plvr.land.moi.gov.tw//Download?type=zip&fileName=lvr_landcsv.zip"
 DATA_DIR = "real_estate_data"
 ZIP_FILE_PATH = os.path.join(DATA_DIR, "lvr_landcsv.zip")
-
-# 台灣各主要城市名稱
-city_names = [
-    '臺北市', '新北市', '桃園市', '臺中市', '臺南市', '高雄市',
-    '基隆市', '新竹市', '嘉義市', '新竹縣', '苗栗縣', '彰化縣',
-    '南投縣', '雲林縣', '嘉義縣', '屏東縣', '宜蘭縣', '花蓮縣',
-    '臺東縣', '澎湖縣', '金門縣', '連江縣'
-]
-
-city_files = {
-    '臺北市': 'a_lvr_land_a.csv',
-    '新北市': 'f_lvr_land_a.csv',
-    '桃園市': 'h_lvr_land_a.csv',
-    '臺中市': 'b_lvr_land_a.csv',
-    '臺南市': 'd_lvr_land_a.csv',
-    '高雄市': 'e_lvr_land_a.csv',
-    '基隆市': 'c_lvr_land_a.csv',
-    '宜蘭縣': 'g_lvr_land_a.csv',
-    '嘉義市': 'i_lvr_land_a.csv',
-    '新竹縣': 'j_lvr_land_a.csv',
-    '苗栗縣': 'k_lvr_land_a.csv',
-    '南投縣': 'm_lvr_land_a.csv',
-    '彰化縣': 'n_lvr_land_a.csv',
-    '新竹市': 'o_lvr_land_a.csv',
-    '雲林縣': 'p_lvr_land_a.csv',
-    '嘉義縣': 'q_lvr_land_a.csv',
-    '屏東縣': 't_lvr_land_a.csv',
-    '花蓮縣': 'u_lvr_land_a.csv',
-    '台東縣': 'v_lvr_land_a.csv',
-    '金門縣': 'w_lvr_land_a.csv',
-    '澎湖縣': 'x_lvr_land_a.csv',
-}
 
 def read_city_data(file_name):
     '''
@@ -122,11 +88,11 @@ def query_real_estate_map(city, min_price, max_price):
     '''
     查詢指定城市的房屋交易資料地圖
     '''
-    if city not in city_files:
+    if city not in get_city_files():
         return f"抱歉，目前不支援 {city} 的資料查詢"
 
     # 讀取資料
-    file_name = city_files[city]
+    file_name = get_city_files()[city]
     df = read_city_data(file_name)
     if df is None:
         return f"抱歉，{city} 的 {file_name} 資料檔案不存在，請執行『下載實價登錄資訊』"
@@ -149,7 +115,7 @@ def query_real_estate_map(city, min_price, max_price):
         # 添加標記
         count = 0
         for index, row in filtered_df.iterrows():
-            if count >= 100:
+            if count >= 100 or index >= 100:
                 break
             location = get_coordinates(clean_address(row['土地位置建物門牌']))
             if location is not None:

@@ -32,3 +32,47 @@ def get_cities():
     取得城市清單
     '''
     return cities_data
+
+# 台灣各主要城市名稱
+city_names = [
+    '臺北市', '新北市', '桃園市', '臺中市', '臺南市', '高雄市',
+    '基隆市', '新竹市', '嘉義市', '新竹縣', '苗栗縣', '彰化縣',
+    '南投縣', '雲林縣', '嘉義縣', '屏東縣', '宜蘭縣', '花蓮縣',
+    '臺東縣', '澎湖縣', '金門縣', '連江縣'
+]
+
+def get_city_names():
+    '''
+    取得城市清單
+    '''
+    return city_names
+
+city_files = {
+    '臺北市': 'a_lvr_land_a.csv',
+    '新北市': 'f_lvr_land_a.csv',
+    '桃園市': 'h_lvr_land_a.csv',
+    '臺中市': 'b_lvr_land_a.csv',
+    '臺南市': 'd_lvr_land_a.csv',
+    '高雄市': 'e_lvr_land_a.csv',
+    '基隆市': 'c_lvr_land_a.csv',
+    '宜蘭縣': 'g_lvr_land_a.csv',
+    '嘉義市': 'i_lvr_land_a.csv',
+    '新竹縣': 'j_lvr_land_a.csv',
+    '苗栗縣': 'k_lvr_land_a.csv',
+    '南投縣': 'm_lvr_land_a.csv',
+    '彰化縣': 'n_lvr_land_a.csv',
+    '新竹市': 'o_lvr_land_a.csv',
+    '雲林縣': 'p_lvr_land_a.csv',
+    '嘉義縣': 'q_lvr_land_a.csv',
+    '屏東縣': 't_lvr_land_a.csv',
+    '花蓮縣': 'u_lvr_land_a.csv',
+    '台東縣': 'v_lvr_land_a.csv',
+    '金門縣': 'w_lvr_land_a.csv',
+    '澎湖縣': 'x_lvr_land_a.csv',
+}
+
+def get_city_files():
+    '''
+    取得城市清單
+    '''
+    return city_files

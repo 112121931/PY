@@ -5,11 +5,11 @@
 
 import os
 from flask import Flask, render_template, request, render_template_string
-from weather import  get_weather_map
-from realestate import query_real_estate, download_and_extract_data
-from realestatemap import query_real_estate_map
-from news import query_news_list
-from bubbles import print_bubbles
+from .weather import  get_weather_map
+from .realestate import query_real_estate, download_and_extract_data
+from .realestatemap import query_real_estate_map
+from .news import query_news_list
+from .bubbles import print_bubbles
 
 # 設置工作目錄
 if os.getcwd().find('finalwork') == -1 :
