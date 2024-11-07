@@ -40,6 +40,11 @@ def plot_bubble_chart(df, city):
     # 清理數據：移除缺失或無效的數據
     df = df.dropna(subset=['總價元', '建物移轉總面積平方公尺', '鄉鎮市區'])
 
+    # 確保總價元和建物移轉總面積平方公尺是數字類型，並過濾出大於 0 的值
+    df['總價元'] = pd.to_numeric(df['總價元'], errors='coerce')
+    df['建物移轉總面積平方公尺'] = pd.to_numeric(df['建物移轉總面積平方公尺'], errors='coerce')
+    df = df[(df['總價元'] > 0) & (df['建物移轉總面積平方公尺'] > 0)].dropna(subset=['總價元', '建物移轉總面積平方公尺'])
+
     # 計算單價元平方公尺
     df['單價元平方公尺'] = df['總價元'] / df['建物移轉總面積平方公尺']
 
