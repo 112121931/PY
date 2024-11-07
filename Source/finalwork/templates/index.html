@@ -91,6 +91,7 @@
             max_price_output.innerHTML = this.value;
         }
 
+        // 表單提交事件處理
         document.getElementById('queryForm').onsubmit = function(event) {
             event.preventDefault();
             fetch('/query', {
@@ -100,6 +101,9 @@
             .then(response => response.text())
             .then(html => {
                 document.getElementById('result_frame').contentDocument.body.innerHTML = html;
+                
+                // 執行下載完成提醒
+                showDownloadMessage();
             });
         };
 
