@@ -19,6 +19,7 @@ zh_font = fm.FontProperties(fname=font_path)
 rcParams['font.sans-serif'] = ['Source Han Serif TW VF']  # 確保安裝了相應的字體
 rcParams['axes.unicode_minus'] = False  # 解決負號顯示問題
 
+#資料預處理
 def query_real_estate(city, min_price, max_price):
     if city not in get_city_files():
         print(f"抱歉，目前不支援 {city} 的資料查詢")
@@ -80,8 +81,8 @@ def plot_bubble_chart(df, city):
         )
 
     # 設定圖表標題與軸標籤
-    plt.title(f"{city} 各區域房屋交易數據", fontproperties=zh_font)
-    plt.xlabel('建物移轉總面積 (平方公尺)', fontproperties=zh_font)
+    plt.title(f"{city} --> 各區域房屋_交易數據", fontproperties=zh_font)
+    plt.xlabel('建物總面積 (平方公尺)', fontproperties=zh_font)
     plt.ylabel('單價 (元/平方公尺)', fontproperties=zh_font)
 
     # 添加圖例
@@ -101,6 +102,7 @@ def plot_bubble_chart(df, city):
 
     return img_base64
 
+# 繪製泡泡圖
 def print_bubbles(city, min_price, max_price):    
     filtered_df = query_real_estate(city, min_price, max_price)
     
