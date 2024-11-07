@@ -11,7 +11,9 @@
     <div class="container mt-5">
         <h1 class="text-center">實價登錄查詢系統</h1>
         <form id="queryForm" action="/query" method="post" target="result_frame" class="mt-4">
-            <div class="row">
+        <!-- 上半部左邊 -->
+        <div class="row mt-4">
+            <div class="col-md-6">
                 <div class="form-group">
                     <label for="option">選擇查詢類型：</label>
                     <select id="option" name="option" class="form-control">
@@ -51,6 +53,8 @@
                     </select>
                 </div>
             </div>
+        </div>
+        <!-- 上半部左邊 -->
             <div class="col-md-6">
                 <div class="form-group">
                     <p><label for="min_price_slider">最低價格(佰萬):</label><span id="min_price_Value" name="min_price_Value">0</span></p>
@@ -61,9 +65,12 @@
                     <input type="range" min="1" max="100" value="50" class="form-control-range" id="max_price_slider" name="max_price_slider">
                 </div>
             </div>
+        <!-- 下半部 -->
+        <div class="form-group mt-4">
             <button type="submit" class="btn btn-primary">查詢</button>
             <button type="button" class="btn btn-secondary ml-2" onclick="printResult()">列印</button>
         </form>
+        </div>
         <iframe id="result_frame" name="result_frame" width="100%" height="600" class="mt-4"></iframe>
     </div>
     <!-- 引用 Bootstrap JavaScript 和依賴 -->
