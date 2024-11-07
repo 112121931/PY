@@ -30,7 +30,7 @@ def query_real_estate(city, min_price, max_price):
         return
 
     # 篩選價格範圍
-    filtered_df = df[(df['總價元'] >= min_price * 1000000) & (df['總價元'] <= max_price * 1000000)]
+    filtered_df = df[(df['總價元'] >= min_price * 100000) & (df['總價元'] <= max_price * 100000)]
 
     # 返回篩選後的結果
     return filtered_df
@@ -52,7 +52,7 @@ def plot_bubble_chart(df, city):
     df['泡泡大小'] = df['鄉鎮市區'].apply(lambda x: area_count.get(x, 0))
 
     # 繪製泡泡圖
-    plt.figure(figsize=(12, 8))
+    plt.figure(figsize=(11, 7))
 
     # 使用不同顏色繪製每個區域的泡泡
     unique_areas = df['鄉鎮市區'].unique()
