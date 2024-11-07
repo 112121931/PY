@@ -3,6 +3,7 @@
 import base64
 import io
 import os
+import pandas as pd
 from IPython.display import display
 import matplotlib.pyplot as plt
 from matplotlib import rcParams
