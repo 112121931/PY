@@ -30,7 +30,7 @@ def query_real_estate(city, min_price, max_price):
         return
 
     # 篩選價格範圍
-    filtered_df = df[(df['總價元'] >= min_price * 100000) & (df['總價元'] <= max_price * 100000)]
+    filtered_df = df[(df['總價元'] >= min_price * 1000000) & (df['總價元'] <= max_price * 1000000)]
 
     # 返回篩選後的結果
     return filtered_df
@@ -39,6 +39,9 @@ def query_real_estate(city, min_price, max_price):
 def plot_bubble_chart(df, city):
     # 清理數據：移除缺失或無效的數據
     df = df.dropna(subset=['總價元', '建物移轉總面積平方公尺', '鄉鎮市區'])
+
+    # 計算單價元平方公尺
+    df['單價元平方公尺'] = df['總價元'] / df['建物移轉總面積平方公尺']
 
     # 確保有有效的數據
     if df.empty:
@@ -63,7 +66,7 @@ def plot_bubble_chart(df, city):
         area_data = df[df['鄉鎮市區'] == area]
         plt.scatter(
             area_data['建物移轉總面積平方公尺'],  # X 軸：建物移轉總面積
-            area_data['總價元'],          # Y 軸：總價
+            area_data['單價元平方公尺'],       # Y 軸：單價元平方公尺
             s=area_data['泡泡大小'] * 10,     # 泡泡大小：區域交易總數
             alpha=0.5,
             color=color_map[area],         # 區域顏色
@@ -73,7 +76,7 @@ def plot_bubble_chart(df, city):
     # 設定圖表標題與軸標籤
     plt.title(f"{city} 各區域房屋交易數據", fontproperties=zh_font)
     plt.xlabel('建物移轉總面積 (平方公尺)', fontproperties=zh_font)
-    plt.ylabel('總價 (元)', fontproperties=zh_font)
+    plt.ylabel('單價 (元/平方公尺)', fontproperties=zh_font)
 
     # 添加圖例
     plt.legend(loc='upper right', bbox_to_anchor=(1.2, 1), title="區域", title_fontproperties=zh_font, prop=zh_font)
