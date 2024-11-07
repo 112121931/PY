@@ -13,7 +13,7 @@
         <form action="/query" method="post" target="result_frame" class="mt-4">
             <div class="form-group">
                 <label for="option">選擇查詢類型：</label>
-                <select id="option" name="option" class="form-control">
+                <select id="option" name="option" class="form-control" onchange="showDownloadMessage()">
                     <option value="download_real_estate">下載實價登錄資訊</option>
                     <option value="real_estate">查詢指定地點實價登錄資訊</option>
                     <option value="real_estate_map">查詢指定地點實價登錄資訊地圖</option>
@@ -67,6 +67,12 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
     <script>
+        function showDownloadMessage() {
+            var option = document.getElementById("option").value;
+            if (option === "download_real_estate") {
+                alert("已完成下載");
+            }
+        }
         var min_price_slider = document.getElementById("min_price_slider");
         var min_price_output = document.getElementById("min_price_Value");
         min_price_output.innerHTML = min_price_slider.value; // 顯示默認滑動條值
