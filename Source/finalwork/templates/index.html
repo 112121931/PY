@@ -10,10 +10,10 @@
 <body>
     <div class="container mt-5">
         <h1 class="text-center">實價登錄查詢系統</h1>
-        <form action="/query" method="post" target="result_frame" class="mt-4">
+        <form id="queryForm" action="/query" method="post" target="result_frame" class="mt-4">
             <div class="form-group">
                 <label for="option">選擇查詢類型：</label>
-                <select id="option" name="option" class="form-control" onchange="showDownloadMessage()">
+                <select id="option" name="option" class="form-control">
                     <option value="download_real_estate">下載實價登錄資訊</option>
                     <option value="real_estate">查詢指定地點實價登錄資訊</option>
                     <option value="real_estate_map">查詢指定地點實價登錄資訊地圖</option>
