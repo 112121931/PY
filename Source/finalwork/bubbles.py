@@ -6,6 +6,7 @@ import os
 import pandas as pd
 from IPython.display import display
 import matplotlib.pyplot as plt
+import plotly.express as px
 from matplotlib import rcParams
 import matplotlib.font_manager as fm
 from realestate import read_city_data
@@ -47,59 +48,36 @@ def plot_bubble_chart(df, city):
     df['建物移轉總面積平方公尺'] = pd.to_numeric(df['建物移轉總面積平方公尺'], errors='coerce')
     df = df[(df['總價元'] > 0) & (df['建物移轉總面積平方公尺'] > 0)].dropna(subset=['總價元', '建物移轉總面積平方公尺'])
 
-    # 計算單價元平方公尺
+    # 計算單價元平方公尺和面積轉換為坪
     df['單價元平方公尺'] = df['總價元'] / df['建物移轉總面積平方公尺']
-
-    # 確保有有效的數據
-    if df.empty:
-        print("無有效數據，無法繪製泡泡圖。")
-        return
+    df['建物移轉總面積坪'] = df['建物移轉總面積平方公尺'] / 3.3058  # 轉換為坪
 
     # 按區域分組，計算每個區域的交易總數
     area_count = df['鄉鎮市區'].value_counts()
-
-    # 將每個房屋的區域交易總數作為泡泡大小
     df['泡泡大小'] = df['鄉鎮市區'].apply(lambda x: area_count.get(x, 0))
 
-    # 繪製泡泡圖
-    plt.figure(figsize=(11, 7))
+    # 使用 Plotly 繪製互動式泡泡圖
+    fig = px.scatter(
+        df,
+        x='建物移轉總面積坪',           # X 軸：建物移轉總面積（坪）
+        y='單價元平方公尺',            # Y 軸：每坪單價
+        size='泡泡大小',               # 泡泡大小：交易量
+        color='鄉鎮市區',               # 顏色代表不同的區域
+        hover_name='鄉鎮市區',          # 滑鼠懸停顯示區域名稱
+        title=f"{city} 各區域房屋交易數據",
+        labels={'建物移轉總面積坪': '建物移轉總面積 (坪)', '單價元平方公尺': '單價 (元/平方公尺)'}
+    )
 
-    # 使用不同顏色繪製每個區域的泡泡
-    unique_areas = df['鄉鎮市區'].unique()
-    colors = plt.cm.get_cmap('tab20', len(unique_areas))  # 使用 'tab20' 顏色映射
-    color_map = {area: colors(i) for i, area in enumerate(unique_areas)}
+    # 調整圖例以便可以點選篩選
+    fig.update_layout(
+        legend_title_text='區域',
+        title_font=dict(size=20)
+    )
 
-    for area in unique_areas:
-        area_data = df[df['鄉鎮市區'] == area]
-        plt.scatter(
-            #area_data['建物移轉總面積平方公尺'],  # X 軸：建物移轉總面積
-            area_data['建物移轉總面積平方公尺'] / 3.3058,  # X 軸：將平方公尺轉換為坪
-            area_data['單價元平方公尺'] / 10000 ,  # Y 軸：單價萬元平方公尺
-            s=area_data['泡泡大小'] * 10,     # 泡泡大小：區域交易總數
-            alpha=0.5,
-            color=color_map[area],         # 區域顏色
-            label=area
-        )
-
-    # 設定圖表標題與軸標籤
-    plt.title(f"{city} --> 各區域房屋_交易數據", fontproperties=zh_font)
-    plt.xlabel('建物移轉總面積 (坪)', fontproperties=zh_font)
-    #plt.xlabel('建物總面積 (平方公尺)', fontproperties=zh_font)
-    plt.ylabel('單價 (萬/平方公尺)', fontproperties=zh_font)
-
-    # 添加圖例
-    plt.legend(loc='upper right', bbox_to_anchor=(1.2, 1), title="區域", title_fontproperties=zh_font, prop=zh_font)
-
-    # 顯示圖表
-    plt.tight_layout()
-
-    # 將圖片保存到記憶體中
+    # 將圖表轉換為 base64 圖片，以便在網頁中顯示
     img = io.BytesIO()
-    plt.savefig(img, format='png')
-    plt.close()
+    fig.write_image(img, format='png')
     img.seek(0)
-
-    # 將圖片轉換為 base64 編碼的字符串
     img_base64 = base64.b64encode(img.getvalue()).decode('utf-8')
 
     return img_base64
