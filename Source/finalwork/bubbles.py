@@ -5,7 +5,6 @@ import io
 import os
 from IPython.display import display
 import matplotlib.pyplot as plt
-import matplotlib.patches as patches
 from matplotlib import rcParams
 import matplotlib.font_manager as fm
 from realestate import read_city_data
@@ -31,7 +30,7 @@ def query_real_estate(city, min_price, max_price):
         return
 
     # 篩選價格範圍
-    filtered_df = df[(df['總價元'] >= min_price * 10000) & (df['總價元'] <= max_price * 10000)]
+    filtered_df = df[(df['總價元'] >= min_price * 1000000) & (df['總價元'] <= max_price * 1000000)]
 
     # 返回篩選後的結果
     return filtered_df
