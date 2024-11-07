@@ -73,7 +73,8 @@ def plot_bubble_chart(df, city):
         area_data = df[df['鄉鎮市區'] == area]
         plt.scatter(
             area_data['建物移轉總面積平方公尺'],  # X 軸：建物移轉總面積
-            area_data['單價元平方公尺'],       # Y 軸：單價元平方公尺
+            area_data['建物移轉總面積平方公尺'] / 3.3058,  # Y 軸：將平方公尺轉換為坪
+            #area_data['單價元平方公尺'],       # Y 軸：單價元平方公尺
             s=area_data['泡泡大小'] * 10,     # 泡泡大小：區域交易總數
             alpha=0.5,
             color=color_map[area],         # 區域顏色
@@ -82,7 +83,8 @@ def plot_bubble_chart(df, city):
 
     # 設定圖表標題與軸標籤
     plt.title(f"{city} --> 各區域房屋_交易數據", fontproperties=zh_font)
-    plt.xlabel('建物總面積 (平方公尺)', fontproperties=zh_font)
+    plt.xlabel('建物移轉總面積 (坪)', fontproperties=zh_font)
+    #plt.xlabel('建物總面積 (平方公尺)', fontproperties=zh_font)
     plt.ylabel('單價 (元/平方公尺)', fontproperties=zh_font)
 
     # 添加圖例
