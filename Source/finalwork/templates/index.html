@@ -20,6 +20,7 @@
                     <option value="weather">查詢台灣各地天氣</option>
                     <option value="news">查詢區域新聞</option>
                     <option value="bubbles">繪制泡泡圖</option>
+                    <option value="loancalc">貸款計算</option>
                 </select>
             </div>
             <div class="form-group">
@@ -57,6 +58,14 @@
                 <p><label for="max_price_slider">最高價格(佰萬):</label><span id="max_price_Value" name="max_price_Value">50</span></p>
                 <input type="range" min="1" max="100" value="50" class="form-control-range" id="max_price_slider" name="max_price_slider">
             </div>
+            <label for="loan_amount">貸款金額：</label>
+            <input type="number" id="loan_amount" name="loan_amount"><br><br>
+
+            <label for="annual_interest_rate">貸款利率：</label>
+            <input type="number" step="0.01" id="annual_interest_rate" name="annual_interest_rate"><br><br>
+
+            <label for="loan_term_years">貸款年限：</label>
+            <input type="number" id="loan_term_years" name="loan_term_years"><br><br>
             <!-- 下半部 -->
             <div class="form-group mt-4">
                 <button type="submit" class="btn btn-primary">查詢</button>
