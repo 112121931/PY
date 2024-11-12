@@ -1,10 +1,12 @@
-# 作者: L
+'''
+# 作者: 102120085 李佳慧
 # 描述: 繪制泡泡圖
+'''
+
 import base64
 import io
 import os
 import pandas as pd
-from IPython.display import display
 import matplotlib.pyplot as plt
 from matplotlib import rcParams
 import matplotlib.font_manager as fm
@@ -19,17 +21,19 @@ zh_font = fm.FontProperties(fname=font_path)
 rcParams['font.sans-serif'] = ['Source Han Serif TW VF']  # 確保安裝了相應的字體
 rcParams['axes.unicode_minus'] = False  # 解決負號顯示問題
 
-#資料預處理
 def query_real_estate(city, min_price, max_price):
+    '''
+    #資料預處理
+    '''
     if city not in get_city_files():
         print(f"抱歉，目前不支援 {city} 的資料查詢")
-        return
+        return None
 
     # 讀取資料
     file_name = get_city_files()[city]
     df = read_city_data(file_name)
     if df is None:
-        return
+        return None
 
     # 篩選價格範圍
     filtered_df = df[(df['總價元'] >= min_price * 1000000) & (df['總價元'] <= max_price * 1000000)]
@@ -37,8 +41,11 @@ def query_real_estate(city, min_price, max_price):
     # 返回篩選後的結果
     return filtered_df
 
-# 繪製泡泡圖的函數
+
 def plot_bubble_chart(df, city):
+    '''
+    # 繪製泡泡圖的函數
+    '''
     # 清理數據：移除缺失或無效的數據
     df = df.dropna(subset=['總價元', '建物移轉總面積平方公尺', '鄉鎮市區'])
 
@@ -53,7 +60,7 @@ def plot_bubble_chart(df, city):
     # 確保有有效的數據
     if df.empty:
         print("無有效數據，無法繪製泡泡圖。")
-        return
+        return None
 
     # 按區域分組，計算每個區域的交易總數
     area_count = df['鄉鎮市區'].value_counts()
@@ -86,7 +93,12 @@ def plot_bubble_chart(df, city):
     plt.ylabel('單價 (萬/平方公尺)', fontproperties=zh_font)
 
     # 添加圖例
-    plt.legend(loc='upper right', bbox_to_anchor=(1.2, 1), title="區域", title_fontproperties=zh_font, prop=zh_font)
+    plt.legend(
+        loc='upper right',
+        bbox_to_anchor=(1.2, 1),
+        title="區域",
+        title_fontproperties=zh_font, prop=zh_font
+        )
 
     # 顯示圖表
     plt.tight_layout()
@@ -102,15 +114,16 @@ def plot_bubble_chart(df, city):
 
     return img_base64
 
-# 繪製泡泡圖
-def print_bubbles(city, min_price, max_price):    
+def print_bubbles(city, min_price, max_price):
+    '''
+    # 繪製泡泡圖
+    '''
     filtered_df = query_real_estate(city, min_price, max_price)
-    
     # 確認 df 不為空
-    if filtered_df is not None and not filtered_df.empty:        
+    if filtered_df is not None and not filtered_df.empty:
         # 繪製泡泡圖
         img_base64 = plot_bubble_chart(filtered_df, city)
         img_tag = f'<img src="data:image/png;base64,{img_base64}" alt="Bubble Chart">'
         return img_tag
-    else:
-        print(f"沒有符合價格範圍 {min_price} - {max_price} 萬元的交易資料。")
+
+    return f"沒有符合價格範圍 {min_price} - {max_price} 萬元的交易資料。"
