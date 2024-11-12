@@ -32,13 +32,25 @@ def query():
     查詢，處理query的POST訊息
     '''
     option = request.form.get('option')
-    location = request.form.get('location')
-    min_price = int(request.form.get('min_price_slider', 0))
-    max_price = int(request.form.get('max_price_slider', 0))
+    
+    # 初始化變數
+    location = None
+    min_price = None
+    max_price = None
+    loan_amount = None
+    annual_interest_rate = None
+    loan_term_years = None
 
-    loan_amount = int(request.form.get('loan_amount', 0))
-    annual_interest_rate = float(request.form.get('annual_interest_rate', 0))
-    loan_term_years = int(request.form.get('loan_term_years', 0))
+    # 根據選項設置變數
+    if option in ['real_estate', 'real_estate_map', 'news', 'bubbles']:
+        location = request.form.get('location')
+        min_price = int(request.form.get('min_price_slider', 0))
+        max_price = int(request.form.get('max_price_slider', 0))
+
+    if option == 'loancalc':
+        loan_amount = int(request.form.get('loan_amount', 0))
+        annual_interest_rate = float(request.form.get('annual_interest_rate', 0))
+        loan_term_years = int(request.form.get('loan_term_years', 0))
 
     result = ""
     if option == "download_real_estate":

@@ -4,7 +4,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>實價登錄查詢系統</title>
-    <!-- 引用 Bootstrap CSS -->
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
 </head>
 <body>
@@ -13,7 +12,7 @@
         <form id="queryForm" action="/query" method="post" target="result_frame" class="mt-4">
             <div class="form-group">
                 <label for="option">選擇查詢類型：</label>
-                <select id="option" name="option" class="form-control">
+                <select id="option" name="option" class="form-control" onchange="showFields()">
                     <option value="download_real_estate">下載實價登錄資訊</option>
                     <option value="real_estate">查詢指定地點實價登錄資訊</option>
                     <option value="real_estate_map">查詢指定地點實價登錄資訊地圖</option>
@@ -23,9 +22,9 @@
                     <option value="loancalc">貸款計算</option>
                 </select>
             </div>
-            <div class="form-group">
+            <div id="locationFields" class="form-group" style="display: none;">
                 <label for="location">選擇地點：</label>
-                <select id="location" name="location" class="form-control" required>
+                <select id="location" name="location" class="form-control">
                     <option value="臺北市">臺北市</option>
                     <option value="新北市">新北市</option>
                     <option value="桃園市">桃園市</option>
@@ -50,22 +49,20 @@
                     <option value="連江縣">連江縣</option>
                 </select>
             </div>
-            <div class="form-group">
-                <p><label for="min_price_slider">最低價格(佰萬):</label><span id="min_price_Value" name="min_price_Value">0</span></p>
+            <div id="priceFields" class="form-group" style="display: none;">
+                <p><label for="min_price_slider">最低價格(佰萬):</label><span id="min_price_Value">0</span></p>
                 <input type="range" min="0" max="100" value="0" class="form-control-range" id="min_price_slider" name="min_price_slider">
-            </div>
-            <div class="form-group">
-                <p><label for="max_price_slider">最高價格(佰萬):</label><span id="max_price_Value" name="max_price_Value">50</span></p>
+                <p><label for="max_price_slider">最高價格(佰萬):</label><span id="max_price_Value">50</span></p>
                 <input type="range" min="1" max="100" value="50" class="form-control-range" id="max_price_slider" name="max_price_slider">
             </div>
-            <label for="loan_amount">貸款金額：</label>
-            <input type="number" id="loan_amount" name="loan_amount"><br><br>
-
-            <label for="annual_interest_rate">貸款利率：</label>
-            <input type="number" step="0.01" id="annual_interest_rate" name="annual_interest_rate"><br><br>
-
-            <label for="loan_term_years">貸款年限：</label>
-            <input type="number" id="loan_term_years" name="loan_term_years"><br><br>
+            <div id="loanFields" class="form-group" style="display: none;">
+                <label for="loan_amount">貸款金額：</label>
+                <input type="number" id="loan_amount" name="loan_amount" class="form-control"><br>
+                <label for="annual_interest_rate">貸款利率：</label>
+                <input type="number" step="0.01" id="annual_interest_rate" name="annual_interest_rate" class="form-control"><br>
+                <label for="loan_term_years">貸款年限：</label>
+                <input type="number" id="loan_term_years" name="loan_term_years" class="form-control"><br>
+            </div>
             <!-- 下半部 -->
             <div class="form-group mt-4">
                 <button type="submit" class="btn btn-primary">查詢</button>
@@ -85,6 +82,21 @@
                 alert("已完成下載");
             }
         }
+
+        function showFields() {
+            var option = document.getElementById("option").value;
+            document.getElementById("locationFields").style.display = "none";
+            document.getElementById("priceFields").style.display = "none";
+            document.getElementById("loanFields").style.display = "none";
+
+            if (option === "real_estate" || option === "real_estate_map" || option === "news" || option === "bubbles") {
+                document.getElementById("locationFields").style.display = "block";
+                document.getElementById("priceFields").style.display = "block";
+            } else if (option === "loancalc") {
+                document.getElementById("loanFields").style.display = "block";
+            }
+        }
+
         var min_price_slider = document.getElementById("min_price_slider");
         var min_price_output = document.getElementById("min_price_Value");
         min_price_output.innerHTML = min_price_slider.value; // 顯示默認滑動條值
@@ -113,7 +125,7 @@
             .then(response => response.text())
             .then(html => {
                 document.getElementById('result_frame').contentDocument.body.innerHTML = html;
-                
+
                 // 執行下載完成提醒
                 showDownloadMessage();
             });
