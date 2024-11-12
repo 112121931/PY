@@ -32,7 +32,7 @@ def query():
     查詢，處理query的POST訊息
     '''
     option = request.form.get('option')
-    
+
     # 初始化變數
     location = None
     min_price = None
